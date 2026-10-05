@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Бронювання квитка — Кіносвіт</title>
+    <link rel="stylesheet" href="css/styles.css">
 </head>
 
 <body>
@@ -16,8 +17,8 @@
                 <li><a href="index.html">Головна</a></li>
                 <li><a href="catalog.html">Каталог</a></li>
                 <li><a href="#">Розклад</a></li>
-                <li><a href="form.html">Бронювання</a></li>
                 <li><a href="#">Про кінотеатр</a></li>
+                <li><a href="form.html" class="current">Бронювання</a></li>
             </ul>
         </nav>
     </header>
@@ -38,13 +39,13 @@
                 <legend>Дані глядача</legend>
 
                 <p>
-                    <label for="fullname">Прізвище та ім'я</label><br>
+                    <label class="required" for="fullname">Прізвище та ім'я</label><br>
                     <input type="text" id="fullname" name="fullname" placeholder="Коваленко Іван" autocomplete="name"
                         minlength="2" maxlength="60" required>
                 </p>
 
                 <p>
-                    <label for="email">Електронна пошта</label><br>
+                    <label class="required" for="email">Електронна пошта</label><br>
                     <input type="email" id="email" name="email" placeholder="ivan@example.com" autocomplete="email"
                         required>
                 </p>
@@ -54,13 +55,13 @@
        \+380   — буквальний префікс +380
        \d{9}   — рівно дев'ять цифр після нього
        Разом: +380671234567 -->
-                    <label for="phone">Телефон</label><br>
+                    <label class="required" for="phone">Телефон</label><br>
                     <input type="tel" id="phone" name="phone" placeholder="+380671234567" autocomplete="tel"
                         pattern="\+380\d{9}" title="Формат: +380 і дев'ять цифр, наприклад +380671234567" required>
                 </p>
 
                 <p>
-                    <label for="visit-date">Дата сеансу</label><br>
+                    <label class="required" for="visit-date">Дата сеансу</label><br>
                     <input type="date" id="visit-date" name="visit-date" min="2026-01-01" max="2026-12-31" required>
                 </p>
 
@@ -70,7 +71,7 @@
                 <legend>Деталі бронювання</legend>
 
                 <p>
-                    <label for="movie">Фільм</label><br>
+                    <label class="required" for="movie">Фільм</label><br>
                     <select id="movie" name="movie" required>
                         <option value="">— оберіть —</option>
                         <option value="spiderman">Людина-павук: Абсолютно новий день</option>
@@ -124,8 +125,8 @@
                 </p>
 
                 <p>
-                    <label><input type="checkbox" id="agree" name="agree" required>
-                        Погоджуюсь з правилами обробки персональних даних</label>
+                    <label class="required"><input type="checkbox" id="agree" name="agree" required>
+Погоджуюсь з правилами обробки персональних даних</label>
                 </p>
 
             </fieldset>
