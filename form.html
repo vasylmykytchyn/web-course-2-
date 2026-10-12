@@ -17,8 +17,8 @@
                 <li><a href="index.html">Головна</a></li>
                 <li><a href="catalog.html">Каталог</a></li>
                 <li><a href="#">Розклад</a></li>
-                <li><a href="#">Про кінотеатр</a></li>
                 <li><a href="form.html" class="current">Бронювання</a></li>
+                <li><a href="#">Про кінотеатр</a></li>
             </ul>
         </nav>
     </header>
@@ -30,9 +30,9 @@
             Після відправлення форми ваше бронювання буде оброблено адміністратором кінотеатру.
         </p>
 
-        <form action="/submit" method="post">
-            <!-- method="post": форма створює нове бронювання, тому повторне 
-     надсилання по F5 не повинно відбуватись випадково, і дані 
+        <form action="https://httpbin.org/post" method="post">
+            <!-- method="post": форма створює нове бронювання, тому повторне
+     надсилання по F5 не повинно відбуватись випадково, і дані
      бронювання не мають зберігатись в URL -->
 
             <fieldset>
@@ -62,7 +62,7 @@
 
                 <p>
                     <label class="required" for="visit-date">Дата сеансу</label><br>
-                    <input type="date" id="visit-date" name="visit-date" min="2026-01-01" max="2026-12-31" required>
+                    <input type="date" id="visit-date" name="visit-date" min="2026-10-12" max="2026-12-31" required>
                 </p>
 
             </fieldset>
@@ -126,7 +126,7 @@
 
                 <p>
                     <label class="required"><input type="checkbox" id="agree" name="agree" required>
-Погоджуюсь з правилами обробки персональних даних</label>
+                        Погоджуюсь з правилами обробки персональних даних</label>
                 </p>
 
             </fieldset>
