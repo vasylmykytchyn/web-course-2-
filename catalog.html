@@ -15,7 +15,7 @@
     <nav aria-label="Головне меню">
       <ul>
         <li><a href="index.html">Головна</a></li>
-        <li><a href="catalog.html">Каталог</a></li>
+        <li><a href="catalog.html" class="current">Каталог</a></li>
         <li><a href="#">Розклад</a></li>
         <li><a href="form.html">Бронювання</a></li>
         <li><a href="#">Про кінотеатр</a></li>
@@ -24,6 +24,51 @@
   </header>
 
   <main>
+
+    <section class="catalog">
+      <h2>Каталог</h2>
+      <div class="cards">
+
+        <article class="card">
+          <span class="card__badge">Прем'єра</span>
+          <img class="card__img" src="https://picsum.photos/seed/film-1/400/600" alt="Постер фільму: силует чоловіка на тлі нічного міста">
+          <div class="card__body">
+            <h3 class="card__title">Повернення короля нічного міста: повна режисерська версія</h3>
+            <p class="card__meta">2024 · Режисер: Іван Петренко</p>
+            <p class="card__id">Код бронювання: CIN-2026-A17</p>
+          </div>
+        </article>
+
+        <article class="card">
+          <span class="card__badge">Прем'єра</span>
+          <img class="card__img" src="https://picsum.photos/seed/film-2/400/600" alt="Постер фільму: двоє людей на безлюдній дорозі">
+          <div class="card__body">
+            <h3 class="card__title">Дорога, якої немає на жодній карті світу</h3>
+            <p class="card__meta">2023 · Режисер: Олена Мельник</p>
+            <p class="card__id">Код бронювання: CIN-2026-B24</p>
+          </div>
+        </article>
+
+        <article class="card">
+          <img class="card__img" src="https://picsum.photos/seed/film-3/400/600" alt="Постер фільму: жінка біля вікна під дощем">
+          <div class="card__body">
+            <h3 class="card__title">Дощ</h3>
+            <p class="card__meta">2021 · Режисер: Андрій Коваль</p>
+            <p class="card__id">Код бронювання: CIN-2026-C05</p>
+          </div>
+        </article>
+
+        <article class="card">
+          <img class="card__img" src="https://picsum.photos/seed/film-4/600/400" alt="Горизонтальна афіша фільму: гори на світанку">
+          <div class="card__body">
+            <h3 class="card__title">Вершина, що чекала нас усе життя</h3>
+            <p class="card__meta">2020 · Режисер: Марія Шевчук</p>
+            <p class="card__id">Код бронювання: CIN-2026-D31</p>
+          </div>
+        </article>
+
+      </div>
+    </section>
 
     <section>
       <h2>Розділи каталогу</h2>
@@ -52,16 +97,13 @@
 
     <section>
       <h2>Як забронювати місце</h2>
+      <p>Після підтвердження ви отримаєте код бронювання формату CIN-2026-A17.</p>
       <ol>
         <li>Оберіть фільм у каталозі</li>
         <li>Оберіть сеанс і час</li>
         <li>Оберіть місце в залі</li>
         <li>Введіть контактні дані</li>
         <li>Підтвердьте бронювання</li>
-        <li><a href="catalog.html" class="current">Головна</a></li>
-      </ol>
-      <p>Після підтвердження ви отримаєте код бронювання формату CIN-2026-A17.</p>
-      <ol start="6">
         <li>Покажіть код бронювання на вході</li>
         <li>Займіть своє місце в залі</li>
       </ol>
@@ -75,6 +117,7 @@
         <dt>Бронювання</dt>
         <dd>Резервування місця на сеанс за унікальним кодом.</dd>
         <dt>Каса</dt>
+        <dd>Місце, де можна придбати або забрати заброньований квиток.</dd>
         <dt>Квиток</dt>
         <dd>Документ, що підтверджує право на місце в залі.</dd>
         <dt>Зал</dt>
@@ -115,40 +158,33 @@
             <td>8.7</td>
           </tr>
           <tr>
-            <th scope="row">Fall 2</th>
+            <th scope="row">Fall 2: Dead Point</th>
             <td>Скотт Манн</td>
             <td>Трилер</td>
             <td>105 хв</td>
             <td>7.4</td>
           </tr>
-          <tr>
-            <th scope="row">Dead Point</th>
-            <td>Скотт Манн</td>
-            <td>Трилер</td>
-            <td>98 хв</td>
-            <td>7.1</td>
-          </tr>
         </tbody>
       </table>
     </section>
 
-  </main>
+    <section>
+      <h2>Питання та відповіді</h2>
+      <details open>
+        <summary>Як скасувати бронювання?</summary>
+        <p>Скасувати бронювання можна за 30 хвилин до початку сеансу через особистий кабінет.</p>
+      </details>
+      <details>
+        <summary>Чи є знижки для студентів?</summary>
+        <p>Так, за наявності студентського квитка знижка становить 15%.</p>
+      </details>
+      <details>
+        <summary>Чи можна повернути квиток?</summary>
+        <p>Повернення можливе не пізніше ніж за 2 години до сеансу.</p>
+      </details>
+    </section>
 
-  <section>
-    <h2>Питання та відповіді</h2>
-    <details open>
-      <summary>Як скасувати бронювання?</summary>
-      <p>Скасувати бронювання можна за 30 хвилин до початку сеансу через особистий кабінет.</p>
-    </details>
-    <details>
-      <summary>Чи є знижки для студентів?</summary>
-      <p>Так, за наявності студентського квитка знижка становить 15%.</p>
-    </details>
-    <details>
-      <summary>Чи можна повернути квиток?</summary>
-      <p>Повернення можливе не пізніше ніж за 2 години до сеансу.</p>
-    </details>
-  </section>
+  </main>
 
   <footer>
     <p>Кібербезпека 1 група, Микитчин В.М, 2026</p>
