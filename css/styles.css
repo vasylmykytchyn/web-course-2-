@@ -1,0 +1,404 @@
+/*
+web-course-2/
+├── index.html
+├── catalog.html
+├── form.html
+├── css/
+│   └── styles.css
+├── images/
+└── README.md
+*/
+/* ==========================================================
+   Проєкт: Кіносвіт — онлайн-кінотеатр
+   Варіант 4
+   Виконав: Микитчин В.М.
+   Дата: жовтень 2026
+   ========================================================== */
+
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Montserrat:wght@400;600&display=swap');
+
+/* box-sizing: border-box означає, що width включає padding і border.
+   У content-box width рахується тільки для вмісту, а відступи й рамка
+   додаються зверху, тому дві колонки по 50% з padding разом дають
+   більше 100% і не вміщаються в рядок. */
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+:root {
+  /* Палітра "кінозалу": темний фон, тепле золото як акцент */
+  --color-brand: hsl(350 55% 22%);     /* бордовий — оксамитові крісла */
+  --color-accent: hsl(38 85% 55%);     /* тепле золото — кнопки, акценти */
+  --color-bg: hsl(240 10% 9%);         /* майже чорний фон залу */
+  --color-surface: hsl(240 8% 15%);    /* фон карток і таблиці */
+  --color-text: hsl(0 0% 92%);         /* світлий текст на темному фоні */
+  --color-muted: hsl(0 0% 62%);        /* другорядний текст */
+
+  --radius: 8px;
+  --shadow: 0 4px 14px rgb(0 0 0 / 60%);
+  --font-heading: "Playfair Display", Georgia, serif;
+  --font-body: "Montserrat", Arial, sans-serif;
+  --font-mono: Consolas, "SFMono-Regular", Menlo, monospace;
+
+  /* Розміри для LR5 */
+  --space-xs: 0.25rem;
+  --space-sm: 0.5rem;
+  --space-md: 1rem;
+  --space-lg: 2rem;
+  --card-width: 260px;
+  --poster-height: 360px;
+}
+
+body {
+  margin: 0;
+  background: var(--color-bg);
+  color: var(--color-text);
+  font-family: var(--font-body);
+  font-size: 1rem;
+  line-height: 1.6;
+}
+
+h1, h2, h3 {
+  font-family: var(--font-heading);
+  line-height: 1.2;
+}
+
+h1 { font-size: 2.2rem; }
+h2 { font-size: 1.6rem; }
+h3 { font-size: 1.3rem; }
+
+p {
+  max-width: 65ch;
+}
+
+main {
+  padding: var(--space-md);
+}
+
+/* === Стани посилань у порядку LVHFA ===
+   Порядок критичний: кожен наступний стан має "переважати"
+   попередній у каскаді, інакше, наприклад, hover ніколи
+   не спрацює на вже відвіданому посиланні */
+a:link    { color: var(--color-accent); }
+a:visited { color: var(--color-muted); }
+a:hover   { text-decoration: underline; }
+a:focus-visible { outline: 2px solid var(--color-accent); }
+a:active  { color: var(--color-text); }
+
+/* === Шапка і горизонтальне меню === */
+
+/* Селектор body > header, щоб стилі шапки сайту не чіпляли <header>
+   усередині <article>.
+   z-index працює лише на позиціонованих елементах, тому потрібен position
+   разом із ним, а без z-index картки з position: relative
+   перекривали б шапку під час прокручування. */
+body > header {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  background: var(--color-brand);
+  padding: var(--space-sm) var(--space-md);
+}
+
+body > header h1 {
+  color: var(--color-accent);
+  margin: 0 0 var(--space-md) 0;
+}
+
+nav ul {
+  list-style: none;
+  padding-left: 0;
+  margin: 0;
+}
+
+nav li {
+  display: inline-block;
+}
+
+/* nav a:link / nav a:visited мають вищу специфічність за a:link / a:visited,
+   тому колір пунктів меню не залежить від загальних стилів посилань.
+   Порядок: звичайний -> hover -> current (current має переважати) */
+nav a {
+  display: inline-block;
+  padding: 0.5em 1em;
+  text-decoration: none;
+  border: 1px solid var(--color-accent);
+}
+
+nav a:link,
+nav a:visited {
+  color: var(--color-text);
+}
+
+nav a:hover {
+  background: var(--color-accent);
+  color: var(--color-bg);
+}
+
+nav a.current,
+nav a.current:link,
+nav a.current:visited {
+  background: var(--color-accent);
+  color: var(--color-bg);
+  font-weight: bold;
+}
+
+body > footer {
+  background: var(--color-brand);
+  color: var(--color-muted);
+  padding: var(--space-md);
+  text-align: center;
+}
+
+/* === Таблиця каталогу (LR2) === */
+table {
+  border-collapse: collapse;
+  width: 100%;
+  margin-bottom: var(--space-md);
+}
+
+caption {
+  text-align: left;
+  font-weight: bold;
+  margin-bottom: 0.5em;
+  color: var(--color-accent);
+}
+
+th, td {
+  border: 1px solid var(--color-muted);
+  padding: 0.6em 1em;
+}
+
+thead th {
+  background: var(--color-brand);
+  color: var(--color-accent);
+  text-align: left;
+}
+
+tbody th {
+  text-align: left;
+}
+
+/* an+b: even означає "кожен другий рядок" (2, 4, 6...) —
+   класична "зебра" для кращої читабельності таблиці */
+tbody tr:nth-child(even) {
+  background: var(--color-surface);
+}
+
+tbody tr:hover {
+  background: var(--color-accent);
+  color: var(--color-bg);
+}
+
+/* Тривалість і рейтинг — "дані", тому моноширинний шрифт і вирівнювання праворуч */
+tbody td:nth-child(4),
+tbody td:nth-child(5) {
+  font-family: var(--font-mono);
+  text-align: right;
+}
+
+/* === Форма бронювання (LR3) === */
+fieldset {
+  border: 1px solid var(--color-muted);
+  border-radius: var(--radius);
+  padding: var(--space-md);
+  margin-bottom: var(--space-md);
+}
+
+legend {
+  color: var(--color-accent);
+  font-family: var(--font-heading);
+  padding: 0 0.5em;
+}
+
+/* radio і checkbox виключені, щоб не розтягувались на всю ширину */
+input:not([type="radio"]):not([type="checkbox"]),
+select,
+textarea {
+  width: 100%;
+  max-width: 400px;
+  padding: 0.5em;
+  margin-top: 0.25em;
+  background: var(--color-surface);
+  color: var(--color-text);
+  border: 1px solid var(--color-muted);
+  border-radius: var(--radius);
+  font-family: var(--font-body);
+}
+
+/* Підсвічуємо тільки активне поле -- якщо прибрати :focus,
+   уся сторінка стане червоною одразу після завантаження,
+   бо порожні required-поля invalid за замовчуванням */
+input:focus:invalid {
+  border-color: hsl(0 70% 50%);
+  background: hsl(0 50% 20%);
+}
+
+input:focus:valid {
+  border-color: hsl(140 50% 45%);
+  background: hsl(140 30% 18%);
+}
+
+button[type="submit"] {
+  background: var(--color-accent);
+  color: var(--color-bg);
+  border: none;
+  padding: 0.6em 1.2em;
+  border-radius: var(--radius);
+  font-weight: bold;
+  cursor: pointer;
+}
+
+button[type="reset"] {
+  background: transparent;
+  color: var(--color-muted);
+  border: 1px solid var(--color-muted);
+  padding: 0.6em 1.2em;
+  border-radius: var(--radius);
+  cursor: pointer;
+}
+
+/* Позначення обов'язкових полів зірочкою через псевдоелемент */
+label.required::after {
+  content: " *";
+  color: var(--color-accent);
+}
+
+/* === Додаткові псевдокласи === */
+nav li:first-child a { border-radius: var(--radius) 0 0 var(--radius); }
+nav li:last-child a { border-radius: 0 var(--radius) var(--radius) 0; }
+input:disabled { opacity: 0.5; }
+
+/* === Псевдоелементи === */
+blockquote::before { content: "«"; color: var(--color-accent); }
+blockquote::after { content: "»"; color: var(--color-accent); }
+
+/* === Комбінатори ===
+   Пробіл (нащадок): діє на будь-який p всередині article, на будь-якій глибині */
+article p { color: var(--color-text); }
+/* > (дитина): діє тільки на li, що є прямим нащадком nav ul */
+nav ul > li { margin-right: 0.3em; }
+
+/* === Атрибутний селектор ===
+   Позначаємо зовнішні посилання значком */
+a[href^="http"]::after {
+  content: " ↗";
+  color: var(--color-accent);
+}
+
+/* ===== Градієнтний банер ===== */
+.banner {
+  width: min(100%, 900px);
+  margin: 0 auto var(--space-lg);
+  padding: var(--space-lg);
+  border-radius: var(--radius);
+  color: var(--color-text);
+  text-shadow: 0 1px 3px rgb(0 0 0 / 70%);
+  background-image: linear-gradient(120deg, var(--color-brand), var(--color-accent));
+}
+
+.banner h2 {
+  margin: 0 0 var(--space-sm);
+}
+
+.banner p {
+  margin: 0;
+}
+/* ===== Зображення на головній ===== */
+.hero-img {
+  display: block;
+  width: min(100%, 300px);
+  height: auto;
+  margin: 0 auto var(--space-lg);
+  border-radius: var(--radius);
+}
+
+/* ===== Картки каталогу ===== */
+.catalog h2 {
+  margin: 0 0 var(--space-md);
+}
+
+.cards {
+  margin: 0;
+  padding: 0;
+}
+
+.card {
+  display: inline-block;
+  vertical-align: top;
+  width: var(--card-width);
+  margin: 0 var(--space-md) var(--space-lg) 0;
+  background: var(--color-surface);
+  border: 1px solid var(--color-muted);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  /* overflow: hidden обрізає зображення по заокруглених кутах картки,
+     без нього кути картинки виступали б за border-radius. */
+  overflow: hidden;
+  /* Абсолютно позиціонований елемент рахує top/right від найближчого
+     предка з position, відмінним від static. Без relative у картки
+     бейджі рахували координати від сторінки і стрибали у верхній
+     правий кут вікна. */
+  position: relative;
+}
+
+.card__body {
+  padding: var(--space-md);
+}
+
+.card__img {
+  /* display: block прибирає зазор під картинкою: img рядковий
+     і сидить на базовій лінії тексту. */
+  display: block;
+  width: 100%;
+  height: var(--poster-height);
+  object-fit: cover;
+  object-position: center;
+}
+
+.card__title {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  line-height: 1.3;
+  margin: 0 0 var(--space-sm);
+}
+
+.card__meta,
+.card__id {
+  margin: 0 0 var(--space-sm);
+}
+
+.card__id {
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+  /* Без nowrap: довгий код переноситься, а не обрізається */
+  overflow-wrap: anywhere;
+}
+
+.card__badge {
+  position: absolute;
+  top: var(--space-sm);
+  right: var(--space-sm);
+  padding: var(--space-xs) var(--space-sm);
+  background: var(--color-accent);
+  color: var(--color-bg);
+  font-size: 0.8rem;
+  border-radius: 999px;
+}
+
+/* ===== Демонстрація: схлопування відступів ===== */
+/* Схлопування вертикальних відступів (margin collapse) відбувається
+   між сусідніми БЛОКОВИМИ елементами. Якщо розкоментувати цей блок,
+   відстань між .card__meta і .card__id (вони сусіди всередині
+   .card__body) буде НЕ 24+16=40px, а 24px: два вертикальні відступи,
+   що стикаються, не додаються, а зливаються в один, більший із двох.
+   Горизонтальні відступи так не поводяться, вони завжди додаються.
+   (Самі картки тут не підходять: вони inline-block, а відступи
+   inline-block елементів не схлопуються.)
+   Тому в цій роботі всі вертикальні відступи задані
+   тільки в один бік, знизу.
+
+.card__meta { margin-bottom: 24px; }
+.card__id   { margin-top: 16px; }
+*/

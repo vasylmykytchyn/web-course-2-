@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="uk">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Каталог фільмів — Кіносвіт</title>
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+
+<body>
+
+  <header>
+    <h1>Кіносвіт</h1>
+    <nav aria-label="Головне меню">
+      <ul>
+        <li><a href="index.html">Головна</a></li>
+        <li><a href="catalog.html" class="current">Каталог</a></li>
+        <li><a href="#">Розклад</a></li>
+        <li><a href="form.html">Бронювання</a></li>
+        <li><a href="#">Про кінотеатр</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <div class="layout">
+
+    <nav class="layout__nav" aria-label="Рубрики каталогу">
+      <h2>Рубрики</h2>
+      <ul>
+        <li><a href="catalog.html">Усі фільми</a></li>
+        <li><a href="catalog.html">Класика кіно</a></li>
+        <li><a href="catalog.html">Прем'єри 2026</a></li>
+        <li><a href="form.html">Бронювання квитка</a></li>
+      </ul>
+    </nav>
+
+    <main class="layout__main">
+
+      <section class="catalog">
+        <h2>Каталог</h2>
+        <div class="cards">
+
+          <article class="card">
+            <span class="card__badge">Драма</span>
+            <img class="card__img" src="images/posters/shawshank.jpg" alt="Постер фільму «Втеча з Шоушенка»">
+            <div class="card__body">
+              <h3 class="card__title">Втеча з Шоушенка</h3>
+              <p class="card__meta">1994 · Режисер: Френк Дарабонт</p>
+              <p class="card__id">Код бронювання: CIN-2026-A17</p>
+            </div>
+            <div class="card__actions">
+              <a class="card__action" href="form.html">Забронювати</a>
+              <button id="openDetails" type="button">Швидкий перегляд</button>
+            </div>
+          </article>
+
+          <article class="card">
+            <span class="card__badge">Кримінал</span>
+            <img class="card__img" src="images/posters/godfather.jpg" alt="Постер фільму «Хрещений батько»">
+            <div class="card__body">
+              <h3 class="card__title">Хрещений батько</h3>
+              <p class="card__meta">1972 · Режисер: Френсіс Форд Коппола</p>
+              <p class="card__id">Код бронювання: CIN-2026-B24</p>
+            </div>
+            <div class="card__actions">
+              <a class="card__action" href="form.html">Забронювати</a>
+            </div>
+          </article>
+
+          <article class="card">
+            <span class="card__badge">Фантастика</span>
+            <img class="card__img" src="images/posters/interstellar.jpg" alt="Постер фільму «Інтерстеллар»">
+            <div class="card__body">
+              <h3 class="card__title">Інтерстеллар</h3>
+              <p class="card__meta">2014 · Режисер: Крістофер Нолан</p>
+              <p class="card__id">Код бронювання: CIN-2026-C05</p>
+            </div>
+            <div class="card__actions">
+              <a class="card__action" href="form.html">Забронювати</a>
+            </div>
+          </article>
+
+          <article class="card">
+            <span class="card__badge">Бойовик</span>
+            <img class="card__img" src="images/posters/dark-knight.jpg" alt="Постер фільму «Темний лицар»" loading="lazy">
+            <div class="card__body">
+              <h3 class="card__title">Темний лицар</h3>
+              <p class="card__meta">2008 · Режисер: Крістофер Нолан</p>
+              <p class="card__id">Код бронювання: CIN-2026-D31</p>
+            </div>
+            <div class="card__actions">
+              <a class="card__action" href="form.html">Забронювати</a>
+            </div>
+          </article>
+
+          <article class="card">
+            <span class="card__badge">Драма</span>
+            <img class="card__img" src="images/posters/forrest-gump.jpg" alt="Постер фільму «Форрест Гамп»" loading="lazy">
+            <div class="card__body">
+              <h3 class="card__title">Форрест Гамп</h3>
+              <p class="card__meta">1994 · Режисер: Роберт Земекіс</p>
+              <p class="card__id">Код бронювання: CIN-2026-E12</p>
+            </div>
+            <div class="card__actions">
+              <a class="card__action" href="form.html">Забронювати</a>
+            </div>
+          </article>
+
+          <article class="card">
+            <span class="card__badge">Історичний</span>
+            <img class="card__img" src="images/posters/gladiator.jpg" alt="Постер фільму «Гладіатор»" loading="lazy">
+            <div class="card__body">
+              <h3 class="card__title">Гладіатор</h3>
+              <p class="card__meta">2000 · Режисер: Рідлі Скотт</p>
+              <p class="card__id">Код бронювання: CIN-2026-F09</p>
+            </div>
+            <div class="card__actions">
+              <a class="card__action" href="form.html">Забронювати</a>
+            </div>
+          </article>
+
+          <article class="card">
+            <span class="card__badge">Комедія</span>
+            <img class="card__img" src="images/posters/home-alone.jpg" alt="Постер фільму «Один вдома»" loading="lazy">
+            <div class="card__body">
+              <h3 class="card__title">Один вдома</h3>
+              <p class="card__meta">1990 · Режисер: Кріс Коламбус</p>
+              <p class="card__id">Код бронювання: CIN-2026-G21</p>
+            </div>
+            <div class="card__actions">
+              <a class="card__action" href="form.html">Забронювати</a>
+            </div>
+          </article>
+
+          <article class="card">
+            <span class="card__badge">Супергероїка</span>
+            <img class="card__img" src="images/cinema-banner.webp" alt="Постер фільму «Людина-павук: Абсолютно новий день»" loading="lazy">
+            <div class="card__body">
+              <h3 class="card__title">Людина-павук: Абсолютно новий день</h3>
+              <p class="card__meta">2026 · 140 хв</p>
+              <p class="card__id">Код бронювання: CIN-2026-H14</p>
+            </div>
+            <div class="card__actions">
+              <a class="card__action" href="form.html">Забронювати</a>
+            </div>
+          </article>
+
+          <article class="card">
+            <span class="card__badge">Пригоди</span>
+            <img class="card__img" src="images/images.webp" alt="Постер фільму «Одіссея»" loading="lazy">
+            <div class="card__body">
+              <h3 class="card__title">Одіссея</h3>
+              <p class="card__meta">2026 · Режисер: Крістофер Нолан</p>
+              <p class="card__id">Код бронювання: CIN-2026-J07</p>
+            </div>
+            <div class="card__actions">
+              <a class="card__action" href="form.html">Забронювати</a>
+            </div>
+          </article>
+
+        </div>
+      </section>
+
+      <section>
+        <h2>Розділи каталогу</h2>
+        <ul>
+          <li>Фільми
+            <ul>
+              <li>Драма</li>
+              <li>Комедія</li>
+              <li>Трилер
+                <ul>
+                  <li>Психологічний трилер</li>
+                  <li>Кримінальний трилер</li>
+                </ul>
+              </li>
+            </ul>
+          </li>
+          <li>Розклад сеансів
+            <ul>
+              <li>Ранкові сеанси</li>
+              <li>Вечірні сеанси</li>
+            </ul>
+          </li>
+          <li>Бронювання</li>
+        </ul>
+      </section>
+
+      <section>
+        <h2>Як забронювати місце</h2>
+        <p>Після підтвердження ви отримаєте код бронювання формату CIN-2026-A17.</p>
+        <ol>
+          <li>Оберіть фільм у каталозі</li>
+          <li>Оберіть сеанс і час</li>
+          <li>Оберіть місце в залі</li>
+          <li>Введіть контактні дані</li>
+          <li>Підтвердьте бронювання</li>
+          <li>Покажіть код бронювання на вході</li>
+          <li>Займіть своє місце в залі</li>
+        </ol>
+      </section>
+
+      <section>
+        <h2>Глосарій</h2>
+        <dl>
+          <dt>Сеанс</dt>
+          <dd>Показ фільму у визначений час у конкретному залі.</dd>
+          <dt>Бронювання</dt>
+          <dd>Резервування місця на сеанс за унікальним кодом.</dd>
+          <dt>Каса</dt>
+          <dd>Місце, де можна придбати або забрати заброньований квиток.</dd>
+          <dt>Квиток</dt>
+          <dd>Документ, що підтверджує право на місце в залі.</dd>
+          <dt>Зал</dt>
+          <dd>Приміщення для перегляду фільму.</dd>
+          <dd>Може бути звичайним або VIP.</dd>
+        </dl>
+      </section>
+
+      <section>
+        <h2>Таблиця фільмів</h2>
+        <table>
+          <caption>Фільми в прокаті цього місяця</caption>
+          <thead>
+            <tr>
+              <th scope="col" rowspan="2">Назва</th>
+              <th scope="col" rowspan="2">Режисер</th>
+              <th scope="col" colspan="3">Характеристики</th>
+            </tr>
+            <tr>
+              <th scope="col">Жанр</th>
+              <th scope="col">Тривалість</th>
+              <th scope="col">Рейтинг</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <th scope="row">Людина-павук: Абсолютно новий день</th>
+              <td>Джон Уоттс</td>
+              <td>Супергеройський</td>
+              <td>140 хв</td>
+              <td>8.5</td>
+            </tr>
+            <tr>
+              <th scope="row">Одіссея</th>
+              <td>Крістофер Нолан</td>
+              <td>Пригодницький</td>
+              <td>165 хв</td>
+              <td>8.7</td>
+            </tr>
+            <tr>
+              <th scope="row">Fall 2: Dead Point</th>
+              <td>Скотт Манн</td>
+              <td>Трилер</td>
+              <td>105 хв</td>
+              <td>7.4</td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+
+      <section>
+        <h2>Питання та відповіді</h2>
+        <details open>
+          <summary>Як скасувати бронювання?</summary>
+          <p>Скасувати бронювання можна за 30 хвилин до початку сеансу через особистий кабінет.</p>
+        </details>
+        <details>
+          <summary>Чи є знижки для студентів?</summary>
+          <p>Так, за наявності студентського квитка знижка становить 15%.</p>
+        </details>
+        <details>
+          <summary>Чи можна повернути квиток?</summary>
+          <p>Повернення можливе не пізніше ніж за 2 години до сеансу.</p>
+        </details>
+      </section>
+
+    </main>
+
+    <aside class="layout__aside">
+      <h2>Фільтр</h2>
+      <form class="filter" action="catalog.html" method="get">
+        <fieldset>
+          <legend>Жанр</legend>
+          <label for="g-drama"><input type="checkbox" id="g-drama" name="genre" value="drama"> Драма</label>
+          <label for="g-crime"><input type="checkbox" id="g-crime" name="genre" value="crime"> Кримінал</label>
+          <label for="g-scifi"><input type="checkbox" id="g-scifi" name="genre" value="scifi"> Фантастика</label>
+          <label for="g-action"><input type="checkbox" id="g-action" name="genre" value="action"> Бойовик</label>
+          <label for="g-history"><input type="checkbox" id="g-history" name="genre" value="history"> Історичний</label>
+          <label for="g-comedy"><input type="checkbox" id="g-comedy" name="genre" value="comedy"> Комедія</label>
+          <label for="g-hero"><input type="checkbox" id="g-hero" name="genre" value="superhero"> Супергероїка</label>
+          <label for="g-adventure"><input type="checkbox" id="g-adventure" name="genre" value="adventure"> Пригоди</label>
+        </fieldset>
+        <button type="submit">Застосувати</button>
+      </form>
+    </aside>
+
+    <footer class="layout__footer">
+      <p>Кібербезпека 1 група, Микитчин В.М, 2026</p>
+    </footer>
+
+  </div>
+
+  <dialog id="details">
+    <h2>Втеча з Шоушенка</h2>
+    <p>Ідентифікатор: CIN-2026-A17</p>
+    <p>Режисер: Френк Дарабонт · Рік: 1994 · Тривалість: 142 хв · Жанр: драма</p>
+    <p>Банкір Енді Дюфрейн, засуджений за вбивство дружини, потрапляє до в'язниці Шоушенк, де знаходить друга й надію. Фільм знято за повістю Стівена Кінга.</p>
+    <h3>Акторський склад</h3>
+    <ul>
+      <li>Тім Роббінс</li>
+      <li>Морган Фріман</li>
+      <li>Боб Гантон</li>
+    </ul>
+    <button id="closeDetails" type="button">Закрити</button>
+  </dialog>
+
+  <script>
+    const dlg = document.getElementById("details");
+    document.getElementById("openDetails").addEventListener("click", () => dlg.showModal());
+    document.getElementById("closeDetails").addEventListener("click", () => dlg.close());
+  </script>
+
+</body>
+
+</html>
