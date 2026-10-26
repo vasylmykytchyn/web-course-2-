@@ -6,6 +6,7 @@ web-course-2/
 ├── css/
 │   └── styles.css
 ├── images/
+│   └── posters/
 └── README.md
 */
 /* ==========================================================
@@ -45,11 +46,20 @@ web-course-2/
   --space-sm: 0.5rem;
   --space-md: 1rem;
   --space-lg: 2rem;
-  --card-width: 260px;
   --poster-height: 360px;
+
+  /* Змінні макета для LR6 */
+  --gap: 1.25rem;       /* єдиний проміжок усіх сіток проєкту */
+  --min-col: 240px;     /* мінімальна ширина колонки каталогу */
+  --sidebar: 220px;     /* ширина бічної колонки макета */
 }
 
+/* body — flex-колонка: футер притискається до низу вікна.
+   На сторінках з макетом росте .layout, на form.html — main. */
 body {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
   margin: 0;
   background: var(--color-bg);
   color: var(--color-text);
@@ -72,6 +82,7 @@ p {
 }
 
 main {
+  flex: 1; /* на form.html main росте й притискає футер до низу */
   padding: var(--space-md);
 }
 
@@ -85,69 +96,141 @@ a:hover   { text-decoration: underline; }
 a:focus-visible { outline: 2px solid var(--color-accent); }
 a:active  { color: var(--color-text); }
 
-/* === Шапка і горизонтальне меню === */
+/* === Шапка і горизонтальне меню (Flexbox) ===
 
-/* Селектор body > header, щоб стилі шапки сайту не чіпляли <header>
+   Селектор body > header, щоб стилі шапки сайту не чіпляли <header>
    усередині <article>.
    z-index працює лише на позиціонованих елементах, тому потрібен position
    разом із ним, а без z-index картки з position: relative
-   перекривали б шапку під час прокручування. */
+   перекривали б шапку під час прокручування.
+   Шапка лишається за межами .layout: липкий елемент рухається лише
+   в межах свого контейнера. */
 body > header {
   position: sticky;
   top: 0;
   z-index: 10;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between; /* назва ліворуч, меню праворуч */
+  gap: var(--gap);
   background: var(--color-brand);
   padding: var(--space-sm) var(--space-md);
 }
 
 body > header h1 {
   color: var(--color-accent);
-  margin: 0 0 var(--space-md) 0;
-}
-
-nav ul {
-  list-style: none;
-  padding-left: 0;
   margin: 0;
 }
 
-nav li {
-  display: inline-block;
+body > header nav ul {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-sm);
+  list-style: none;
+  margin: 0;
+  padding: 0;
 }
 
-/* nav a:link / nav a:visited мають вищу специфічність за a:link / a:visited,
-   тому колір пунктів меню не залежить від загальних стилів посилань.
-   Порядок: звичайний -> hover -> current (current має переважати) */
-nav a {
-  display: inline-block;
-  padding: 0.5em 1em;
+/* Звичайний -> hover -> current (current має переважати) */
+body > header nav a {
+  display: block;
+  padding: var(--space-sm) var(--space-md);
   text-decoration: none;
   border: 1px solid var(--color-accent);
+  border-radius: var(--radius);
 }
 
-nav a:link,
-nav a:visited {
+body > header nav a:link,
+body > header nav a:visited {
   color: var(--color-text);
 }
 
-nav a:hover {
+body > header nav a:hover {
   background: var(--color-accent);
   color: var(--color-bg);
 }
 
-nav a.current,
-nav a.current:link,
-nav a.current:visited {
+body > header nav a.current,
+body > header nav a.current:link,
+body > header nav a.current:visited {
   background: var(--color-accent);
   color: var(--color-bg);
   font-weight: bold;
 }
 
-body > footer {
+/* Футер: на form.html він прямий нащадок body,
+   на index.html і catalog.html — остання зона макета */
+body > footer,
+.layout__footer {
   background: var(--color-brand);
   color: var(--color-muted);
   padding: var(--space-md);
   text-align: center;
+}
+
+/* === Макет сторінки: Grid + grid-template-areas === */
+.layout {
+  flex: 1; /* розтягує макет на залишок висоти вікна */
+  display: grid;
+  grid-template-columns: var(--sidebar) 1fr var(--sidebar);
+  grid-template-areas:
+    "nav  main side"
+    "foot foot foot";
+  /* flex: 1 лише розтягує контейнер; щоб футер не висів під вмістом,
+     треба сказати сітці, який рядок росте: перший (1fr), а футер — по вмісту (auto) */
+  grid-template-rows: 1fr auto;
+  gap: var(--gap);
+  padding: var(--space-md);
+}
+
+/* index.html: схема на дві колонки, без aside */
+.layout--two {
+  grid-template-columns: var(--sidebar) 1fr;
+  grid-template-areas:
+    "nav main"
+    "foot foot";
+}
+
+.layout__nav    { grid-area: nav; }
+.layout__main   { grid-area: main; min-width: 0; padding: 0; }
+.layout__aside  { grid-area: side; }
+.layout__footer { grid-area: foot; }
+
+.layout__nav,
+.layout__aside {
+  align-self: start;
+  padding: var(--space-md);
+  background: var(--color-surface);
+  border-radius: var(--radius);
+}
+
+.layout__nav h2,
+.layout__aside h2 {
+  margin: 0 0 var(--space-sm);
+  font-size: 1.2rem;
+}
+
+.layout__nav ul {
+  display: grid;
+  gap: var(--space-sm);
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.layout__footer {
+  border-radius: var(--radius);
+}
+
+/* Фільтр за жанром в aside */
+.filter label {
+  display: block;
+  padding: var(--space-xs) 0;
+}
+
+.filter button {
+  margin-top: var(--space-sm);
 }
 
 /* === Таблиця каталогу (LR2) === */
@@ -265,8 +348,6 @@ label.required::after {
 }
 
 /* === Додаткові псевдокласи === */
-nav li:first-child a { border-radius: var(--radius) 0 0 var(--radius); }
-nav li:last-child a { border-radius: 0 var(--radius) var(--radius) 0; }
 input:disabled { opacity: 0.5; }
 
 /* === Псевдоелементи === */
@@ -276,8 +357,6 @@ blockquote::after { content: "»"; color: var(--color-accent); }
 /* === Комбінатори ===
    Пробіл (нащадок): діє на будь-який p всередині article, на будь-якій глибині */
 article p { color: var(--color-text); }
-/* > (дитина): діє тільки на li, що є прямим нащадком nav ul */
-nav ul > li { margin-right: 0.3em; }
 
 /* === Атрибутний селектор ===
    Позначаємо зовнішні посилання значком */
@@ -304,6 +383,7 @@ a[href^="http"]::after {
 .banner p {
   margin: 0;
 }
+
 /* ===== Зображення на головній ===== */
 .hero-img {
   display: block;
@@ -313,21 +393,25 @@ a[href^="http"]::after {
   border-radius: var(--radius);
 }
 
-/* ===== Картки каталогу ===== */
+/* ===== Каталог: Grid ===== */
 .catalog h2 {
   margin: 0 0 var(--space-md);
 }
 
+/* auto-fit + minmax: скільки колонок вміщується, стільки й буде,
+   жодного медіазапиту. Однакову висоту карток у ряду дає сам Grid. */
 .cards {
-  margin: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(var(--min-col), 1fr));
+  gap: var(--gap);
+  margin: 0 0 var(--space-lg);
   padding: 0;
 }
 
+/* ===== Картка: Flexbox-колонка ===== */
 .card {
-  display: inline-block;
-  vertical-align: top;
-  width: var(--card-width);
-  margin: 0 var(--space-md) var(--space-lg) 0;
+  display: flex;
+  flex-direction: column;
   background: var(--color-surface);
   border: 1px solid var(--color-muted);
   border-radius: var(--radius);
@@ -387,18 +471,74 @@ a[href^="http"]::after {
   border-radius: 999px;
 }
 
-/* ===== Демонстрація: схлопування відступів ===== */
-/* Схлопування вертикальних відступів (margin collapse) відбувається
-   між сусідніми БЛОКОВИМИ елементами. Якщо розкоментувати цей блок,
-   відстань між .card__meta і .card__id (вони сусіди всередині
-   .card__body) буде НЕ 24+16=40px, а 24px: два вертикальні відступи,
-   що стикаються, не додаються, а зливаються в один, більший із двох.
-   Горизонтальні відступи так не поводяться, вони завжди додаються.
-   (Самі картки тут не підходять: вони inline-block, а відступи
-   inline-block елементів не схлопуються.)
-   Тому в цій роботі всі вертикальні відступи задані
-   тільки в один бік, знизу.
+/* margin-top: auto забирає весь вільний простір по вертикалі,
+   так само як margin: 0 auto ділить вільний простір по горизонталі
+   і центрує блок, тому рядок кнопок опиняється внизу картки
+   на одній лінії в усіх картках ряду. */
+.card__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-sm);
+  margin-top: auto;
+  padding: 0 var(--space-md) var(--space-md);
+}
 
-.card__meta { margin-bottom: 24px; }
-.card__id   { margin-top: 16px; }
-*/
+.card__action,
+.card__actions button {
+  padding: var(--space-sm) var(--space-md);
+  border: none;
+  border-radius: var(--radius);
+  background: var(--color-accent);
+  font: inherit;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+/* Окремо для :link і :visited: інакше a:link (специфічність вища)
+   перебиває колір тексту на кнопці */
+.card__action:link,
+.card__action:visited,
+.card__actions button {
+  color: var(--color-bg);
+}
+
+/* ===== Модальне вікно <dialog> ===== */
+/* z-index не потрібен: showModal() кладе вікно у верхній шар
+   (top layer) браузера, і воно лежить над усім незалежно від z-index. */
+dialog {
+  width: min(90%, 420px);
+  padding: var(--space-lg);
+  border: none;
+  border-radius: var(--radius);
+  background: var(--color-surface);
+  color: var(--color-text);
+  box-shadow: 0 12px 28px rgb(0 0 0 / 35%);
+}
+
+dialog::backdrop {
+  background: rgb(0 0 0 / 55%);
+}
+
+/* Поки вікно відкрите, сторінка позаду не прокручується */
+body:has(dialog[open]) {
+  overflow: hidden;
+}
+
+/* ===== На вузьких екранах макет у одну колонку (необов'язково) ===== */
+@media (max-width: 800px) {
+  .layout {
+    grid-template-columns: 1fr;
+    grid-template-areas:
+      "nav"
+      "main"
+      "side"
+      "foot";
+    grid-template-rows: auto;
+  }
+  .layout--two {
+    grid-template-areas:
+      "nav"
+      "main"
+      "foot";
+  }
+}
