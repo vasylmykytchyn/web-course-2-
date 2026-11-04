@@ -6,14 +6,14 @@ web-course-2/
 ├── css/
 │   └── styles.css
 ├── images/
-│   └── posters/
+│   └── screens/
 └── README.md
 */
 /* ==========================================================
    Проєкт: Кіносвіт — онлайн-кінотеатр
    Варіант 4
    Виконав: Микитчин В.М.
-   Дата: жовтень 2026
+   Дата: листопад 2026
    ========================================================== */
 
 @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Montserrat:wght@400;600&display=swap');
@@ -22,18 +22,43 @@ web-course-2/
    У content-box width рахується тільки для вмісту, а відступи й рамка
    додаються зверху, тому дві колонки по 50% з padding разом дають
    більше 100% і не вміщаються в рядок. */
-*, *::before, *::after {
+*,
+*::before,
+*::after {
   box-sizing: border-box;
+}
+
+/* max-width: 100% не дає зображенню бути ширшим за свій контейнер,
+   а height: auto зберігає пропорції. Без цього велика картинка тримає
+   власну ширину в пікселях, виходить за межі екрана телефона й розтягує
+   всю сторінку, через що з'являється горизонтальна прокрутка. */
+img,
+video,
+iframe {
+  max-width: 100%;
+  height: auto;
+}
+
+/* Запас зверху для переходів за якорями (#schedule, #about): без нього
+   липка шапка закривала б заголовок розділу, до якого ми прокрутили. */
+html {
+  scroll-padding-top: 5rem;
 }
 
 :root {
   /* Палітра "кінозалу": темний фон, тепле золото як акцент */
-  --color-brand: hsl(350 55% 22%);     /* бордовий — оксамитові крісла */
-  --color-accent: hsl(38 85% 55%);     /* тепле золото — кнопки, акценти */
-  --color-bg: hsl(240 10% 9%);         /* майже чорний фон залу */
-  --color-surface: hsl(240 8% 15%);    /* фон карток і таблиці */
-  --color-text: hsl(0 0% 92%);         /* світлий текст на темному фоні */
-  --color-muted: hsl(0 0% 62%);        /* другорядний текст */
+  --color-brand: hsl(350 55% 22%);
+  /* бордовий — оксамитові крісла */
+  --color-accent: hsl(38 85% 55%);
+  /* тепле золото — кнопки, акценти */
+  --color-bg: hsl(240 10% 9%);
+  /* майже чорний фон залу */
+  --color-surface: hsl(240 8% 15%);
+  /* фон карток і таблиці */
+  --color-text: hsl(0 0% 92%);
+  /* світлий текст на темному фоні */
+  --color-muted: hsl(0 0% 62%);
+  /* другорядний текст */
 
   --radius: 8px;
   --shadow: 0 4px 14px rgb(0 0 0 / 60%);
@@ -41,18 +66,29 @@ web-course-2/
   --font-body: "Montserrat", Arial, sans-serif;
   --font-mono: Consolas, "SFMono-Regular", Menlo, monospace;
 
-  /* Розміри для LR5 */
+  /* Відступи */
   --space-xs: 0.25rem;
   --space-sm: 0.5rem;
   --space-md: 1rem;
   --space-lg: 2rem;
-  --poster-height: 360px;
+  --tap: 44px;
+  /* мінімальна зона натискання для пальця */
 
-  /* Змінні макета для LR6 */
-  --gap: 1.25rem;       /* єдиний проміжок усіх сіток проєкту */
-  --min-col: 240px;     /* мінімальна ширина колонки каталогу */
-  --sidebar: 220px;     /* ширина бічної колонки макета */
+  /* Макет */
+  --gap: 1.25rem;
+  /* єдиний проміжок усіх сіток проєкту */
+  --sidebar: 220px;
+  /* ширина бічної колонки на десктопі */
+  --min-col: 45%;
+  /* база (телефон): 2 постери в ряд; далі перевизначається у медіазапитах */
 }
+
+/* ===== Адаптив (mobile-first) =====
+   база              — телефон,  ≤ 767px
+   min-width: 768px  — планшет,  768–1023px
+   min-width: 1024px — десктоп,  ≥ 1024px
+   Усі медіазапити лише через min-width і розташовані поруч зі своїми
+   компонентами; єдиний виняток — prefers-reduced-motion в кінці файлу. */
 
 /* body — flex-колонка: футер притискається до низу вікна.
    На сторінках з макетом росте .layout, на form.html — main. */
@@ -68,21 +104,32 @@ body {
   line-height: 1.6;
 }
 
-h1, h2, h3 {
+h1,
+h2,
+h3 {
   font-family: var(--font-heading);
   line-height: 1.2;
 }
 
-h1 { font-size: 2.2rem; }
-h2 { font-size: 1.6rem; }
-h3 { font-size: 1.3rem; }
+h1 {
+  font-size: clamp(1.6rem, 5vw, 2.2rem);
+}
+
+h2 {
+  font-size: clamp(1.3rem, 4vw, 1.6rem);
+}
+
+h3 {
+  font-size: 1.2rem;
+}
 
 p {
   max-width: 65ch;
 }
 
 main {
-  flex: 1; /* на form.html main росте й притискає футер до низу */
+  flex: 1;
+  /* на form.html main росте й притискає футер до низу */
   padding: var(--space-md);
 }
 
@@ -90,78 +137,142 @@ main {
    Порядок критичний: кожен наступний стан має "переважати"
    попередній у каскаді, інакше, наприклад, hover ніколи
    не спрацює на вже відвіданому посиланні */
-a:link    { color: var(--color-accent); }
-a:visited { color: var(--color-muted); }
-a:hover   { text-decoration: underline; }
-a:focus-visible { outline: 2px solid var(--color-accent); }
-a:active  { color: var(--color-text); }
+a:link {
+  color: var(--color-accent);
+}
 
-/* === Шапка і горизонтальне меню (Flexbox) ===
+a:visited {
+  color: var(--color-muted);
+}
 
-   Селектор body > header, щоб стилі шапки сайту не чіпляли <header>
-   усередині <article>.
-   z-index працює лише на позиціонованих елементах, тому потрібен position
-   разом із ним, а без z-index картки з position: relative
-   перекривали б шапку під час прокручування.
-   Шапка лишається за межами .layout: липкий елемент рухається лише
-   в межах свого контейнера. */
-body > header {
-  position: sticky;
-  top: 0;
+a:hover {
+  text-decoration: underline;
+}
+
+a:focus-visible {
+  outline: 2px solid var(--color-accent);
+}
+
+a:active {
+  color: var(--color-text);
+}
+
+/* === Шапка ===
+   База (телефон): назва над меню, шапка звичайна (не липка), бо відкрите
+   меню займало б пів екрана. З планшета шапка стає липкою, а назва й меню
+   стоять в один рядок. Шапка лишається за межами .layout: липкий елемент
+   рухається лише в межах свого контейнера.
+   Селектор body > header не чіпляє <header> усередині <article>. */
+body>header {
   z-index: 10;
   display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  justify-content: space-between; /* назва ліворуч, меню праворуч */
-  gap: var(--gap);
+  flex-direction: column;
+  gap: var(--space-sm);
   background: var(--color-brand);
   padding: var(--space-sm) var(--space-md);
 }
 
-body > header h1 {
+body>header h1 {
   color: var(--color-accent);
   margin: 0;
 }
 
-body > header nav ul {
+@media (min-width: 768px) {
+  body>header {
+    position: sticky;
+    top: 0;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--gap);
+  }
+}
+
+/* === Меню в шапці: <details> без JavaScript ===
+   База (телефон): summary — кнопка "☰ Меню", пункти вертикально на всю
+   ширину, кожен не нижчий за 44px. */
+.nav__toggle {
   display: flex;
-  flex-wrap: wrap;
-  gap: var(--space-sm);
+  align-items: center;
+  min-height: var(--tap);
+  padding: 0 var(--space-md);
+  background: var(--color-accent);
+  color: var(--color-bg);
+  border-radius: var(--radius);
+  font-weight: 600;
+  cursor: pointer;
   list-style: none;
-  margin: 0;
+}
+
+.nav__toggle::-webkit-details-marker {
+  display: none;
+}
+
+/* Видимий фокус для клавіатури (Tab, потім Enter або Space) */
+.nav__toggle:focus-visible {
+  outline: 3px solid var(--color-text);
+  outline-offset: 2px;
+}
+
+.nav__list {
+  display: grid;
+  gap: var(--space-xs);
+  list-style: none;
+  margin: var(--space-sm) 0 0;
   padding: 0;
 }
 
-/* Звичайний -> hover -> current (current має переважати) */
-body > header nav a {
-  display: block;
-  padding: var(--space-sm) var(--space-md);
+.nav__list a {
+  display: flex;
+  align-items: center;
+  min-height: var(--tap);
+  padding: 0 var(--space-md);
   text-decoration: none;
   border: 1px solid var(--color-accent);
   border-radius: var(--radius);
 }
 
-body > header nav a:link,
-body > header nav a:visited {
+/* Звичайний -> hover -> current (current має переважати) */
+.nav__list a:link,
+.nav__list a:visited {
   color: var(--color-text);
 }
 
-body > header nav a:hover {
+.nav__list a:hover {
   background: var(--color-accent);
   color: var(--color-bg);
 }
 
-body > header nav a.current,
-body > header nav a.current:link,
-body > header nav a.current:visited {
+.nav__list a.current,
+.nav__list a.current:link,
+.nav__list a.current:visited {
   background: var(--color-accent);
   color: var(--color-bg);
   font-weight: bold;
 }
 
+/* Планшет і вище: кнопка прихована, список — горизонтальний ряд на Flexbox */
+@media (min-width: 768px) {
+  .nav__toggle {
+    display: none;
+  }
+
+  .nav__list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-sm);
+    margin: 0;
+  }
+
+  .nav__list a {
+    min-height: auto;
+    padding: var(--space-sm) var(--space-md);
+  }
+}
+
 /* Футер: на form.html він прямий нащадок body,
    на index.html і catalog.html — остання зона макета */
-body > footer,
+body>footer,
 .layout__footer {
   background: var(--color-brand);
   color: var(--color-muted);
@@ -169,34 +280,97 @@ body > footer,
   text-align: center;
 }
 
-/* === Макет сторінки: Grid + grid-template-areas === */
+/* === Макет сторінки: Grid + grid-template-areas ===
+   База (телефон): одна колонка, порядок зон nav -> main -> side -> foot.
+
+   Чому flex: 1, а не height: 100%: у body задано лише min-height, а не height,
+   тому відсоткова висота дочірнього елемента не має від чого рахуватися
+   (висота батька не визначена) і перетворюється на auto. flex: 1 натомість
+   працює всередині flex-колонки: макет бере весь вільний простір, що
+   лишається між шапкою й низом вікна, незалежно від того, чи задана висота
+   батька. Самого flex: 1 мало: щоб футер не висів одразу під вмістом,
+   рядок main у сітці має бути 1fr (росте), а рядок foot — auto (по вмісту). */
 .layout {
-  flex: 1; /* розтягує макет на залишок висоти вікна */
+  flex: 1;
   display: grid;
-  grid-template-columns: var(--sidebar) 1fr var(--sidebar);
-  grid-template-areas:
-    "nav  main side"
-    "foot foot foot";
-  /* flex: 1 лише розтягує контейнер; щоб футер не висів під вмістом,
-     треба сказати сітці, який рядок росте: перший (1fr), а футер — по вмісту (auto) */
-  grid-template-rows: 1fr auto;
   gap: var(--gap);
   padding: var(--space-md);
-}
-
-/* index.html: схема на дві колонки, без aside */
-.layout--two {
-  grid-template-columns: var(--sidebar) 1fr;
+  grid-template-columns: 1fr;
   grid-template-areas:
-    "nav main"
-    "foot foot";
+    "nav"
+    "main"
+    "side"
+    "foot";
+  grid-template-rows: auto 1fr auto auto;
 }
 
-.layout__nav    { grid-area: nav; }
-.layout__main   { grid-area: main; min-width: 0; padding: 0; }
-.layout__aside  { grid-area: side; }
-.layout__footer { grid-area: foot; }
+.layout__nav {
+  grid-area: nav;
+}
 
+.layout__main {
+  grid-area: main;
+  min-width: 0;
+  padding: 0;
+}
+
+.layout__aside {
+  grid-area: side;
+}
+
+.layout__footer {
+  grid-area: foot;
+  border-radius: var(--radius);
+}
+
+/* Планшет: дві колонки — main і side; навігація зверху на всю ширину */
+@media (min-width: 768px) {
+  .layout {
+    grid-template-columns: 2fr 1fr;
+    grid-template-areas:
+      "nav  nav"
+      "main side"
+      "foot foot";
+    grid-template-rows: auto 1fr auto;
+  }
+}
+
+/* Десктоп: повна схема з LR6 — три колонки; ширина макета обмежена й
+   відцентрована, щоб на широкому моніторі рядки не розтягувалися */
+@media (min-width: 1024px) {
+  .layout {
+    width: min(100%, 1440px);
+    margin-inline: auto;
+    grid-template-columns: var(--sidebar) 1fr var(--sidebar);
+    grid-template-areas:
+      "nav  main side"
+      "foot foot foot";
+    grid-template-rows: 1fr auto;
+  }
+}
+
+/* index.html: макет без aside. Ці правила стоять після .layout, щоб при
+   однаковій специфічності перемагати його (останнє правило виграє). */
+.layout--two {
+  grid-template-columns: 1fr;
+  grid-template-areas:
+    "nav"
+    "main"
+    "foot";
+  grid-template-rows: auto 1fr auto;
+}
+
+@media (min-width: 768px) {
+  .layout--two {
+    grid-template-columns: var(--sidebar) 1fr;
+    grid-template-areas:
+      "nav  main"
+      "foot foot";
+    grid-template-rows: 1fr auto;
+  }
+}
+
+/* Бічні блоки */
 .layout__nav,
 .layout__aside {
   align-self: start;
@@ -211,33 +385,48 @@ body > footer,
   font-size: 1.2rem;
 }
 
+/* Рубрики: у широкій навігації стають рядом, у вузькій колонці — стовпчиком */
 .layout__nav ul {
   display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(10rem, 1fr));
   gap: var(--space-sm);
   list-style: none;
   margin: 0;
   padding: 0;
 }
 
-.layout__footer {
-  border-radius: var(--radius);
-}
-
 /* Фільтр за жанром в aside */
 .filter label {
   display: block;
-  padding: var(--space-xs) 0;
+  padding: var(--space-sm) 0;
 }
 
 .filter button {
   margin-top: var(--space-sm);
+  min-height: var(--tap);
 }
 
-/* === Таблиця каталогу (LR2) === */
+/* === Таблиці (LR2) === */
 table {
   border-collapse: collapse;
   width: 100%;
   margin-bottom: var(--space-md);
+}
+
+/* На вузькому екрані прокручується сама таблиця, а не вся сторінка */
+.table-wrap {
+  overflow-x: auto;
+  margin-bottom: var(--space-md);
+}
+
+.table-wrap table {
+  min-width: 36rem;
+  margin-bottom: 0;
+}
+
+/* Проста таблиця з трьох стовпців не потребує такої мінімальної ширини */
+.table-wrap--narrow table {
+  min-width: 0;
 }
 
 caption {
@@ -247,7 +436,8 @@ caption {
   color: var(--color-accent);
 }
 
-th, td {
+th,
+td {
   border: 1px solid var(--color-muted);
   padding: 0.6em 1em;
 }
@@ -327,6 +517,7 @@ button[type="submit"] {
   color: var(--color-bg);
   border: none;
   padding: 0.6em 1.2em;
+  min-height: var(--tap);
   border-radius: var(--radius);
   font-weight: bold;
   cursor: pointer;
@@ -337,6 +528,7 @@ button[type="reset"] {
   color: var(--color-muted);
   border: 1px solid var(--color-muted);
   padding: 0.6em 1.2em;
+  min-height: var(--tap);
   border-radius: var(--radius);
   cursor: pointer;
 }
@@ -348,15 +540,26 @@ label.required::after {
 }
 
 /* === Додаткові псевдокласи === */
-input:disabled { opacity: 0.5; }
+input:disabled {
+  opacity: 0.5;
+}
 
 /* === Псевдоелементи === */
-blockquote::before { content: "«"; color: var(--color-accent); }
-blockquote::after { content: "»"; color: var(--color-accent); }
+blockquote::before {
+  content: "«";
+  color: var(--color-accent);
+}
+
+blockquote::after {
+  content: "»";
+  color: var(--color-accent);
+}
 
 /* === Комбінатори ===
    Пробіл (нащадок): діє на будь-який p всередині article, на будь-якій глибині */
-article p { color: var(--color-text); }
+article p {
+  color: var(--color-text);
+}
 
 /* === Атрибутний селектор ===
    Позначаємо зовнішні посилання значком */
@@ -398,8 +601,11 @@ a[href^="http"]::after {
   margin: 0 0 var(--space-md);
 }
 
-/* auto-fit + minmax: скільки колонок вміщується, стільки й буде,
-   жодного медіазапиту. Однакову висоту карток у ряду дає сам Grid. */
+/* Механізм із LR6 не чіпаємо: auto-fit + minmax(var(--min-col), 1fr).
+   Кількістю постерів у ряду керує лише --min-col:
+   телефон 45%  -> рівно 2 в ряд (3 не вміщаються);
+   планшет 30%  -> рівно 3 в ряд (4 не вміщаються);
+   десктоп 150px -> 5 в ряд на ширині макета 1440px. */
 .cards {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(var(--min-col), 1fr));
@@ -408,8 +614,21 @@ a[href^="http"]::after {
   padding: 0;
 }
 
-/* ===== Картка: Flexbox-колонка ===== */
+@media (min-width: 768px) {
+  .cards {
+    --min-col: 30%;
+  }
+}
+
+@media (min-width: 1024px) {
+  .cards {
+    --min-col: 150px;
+  }
+}
+
+/* ===== Картка: Flexbox-колонка + плавні переходи ===== */
 .card {
+  --pad: var(--space-sm);
   display: flex;
   flex-direction: column;
   background: var(--color-surface);
@@ -419,15 +638,33 @@ a[href^="http"]::after {
   /* overflow: hidden обрізає зображення по заокруглених кутах картки,
      без нього кути картинки виступали б за border-radius. */
   overflow: hidden;
-  /* Абсолютно позиціонований елемент рахує top/right від найближчого
-     предка з position, відмінним від static. Без relative у картки
-     бейджі рахували координати від сторінки і стрибали у верхній
-     правий кут вікна. */
-  position: relative;
+  /* Перехід стоїть на базовому правилі, а не в :hover, тому картка
+     плавно повертається назад, коли курсор іде геть. Анімуємо тільки
+     transform, box-shadow і колір рамки; transition: all не використовуємо. */
+  transition: transform 250ms ease, box-shadow 250ms ease, border-color 250ms ease;
 }
 
-.card__body {
-  padding: var(--space-md);
+.card:hover,
+.card:focus-within {
+  transform: translateY(-6px);
+  box-shadow: 0 14px 28px rgb(0 0 0 / 70%);
+  border-color: var(--color-accent);
+}
+
+@media (min-width: 768px) {
+  .card {
+    --pad: var(--space-md);
+  }
+}
+
+/* Постер: обгортка з пропорцією 2:3 і відсіканням масштабованого зображення */
+.card__media {
+  /* Абсолютно позиціонований елемент рахує top/right від найближчого
+     предка з position, відмінним від static. Без relative у обгортки
+     бейдж і затемнення рахували б координати від сторінки. */
+  position: relative;
+  aspect-ratio: 2 / 3;
+  overflow: hidden;
 }
 
 .card__img {
@@ -435,9 +672,54 @@ a[href^="http"]::after {
      і сидить на базовій лінії тексту. */
   display: block;
   width: 100%;
-  height: var(--poster-height);
+  height: 100%;
   object-fit: cover;
   object-position: center;
+  transition: transform 400ms ease;
+}
+
+/* Вкладений ефект: при наведенні (і при фокусі з клавіатури) постер збільшується */
+.card:hover .card__img,
+.card:focus-within .card__img {
+  transform: scale(1.08);
+}
+
+/* Затемнення з назвою фільму: з'являється зміною opacity */
+.card__overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  display: flex;
+  align-items: flex-end;
+  padding: var(--pad);
+  background: linear-gradient(to top, rgb(0 0 0 / 85%), rgb(0 0 0 / 25%));
+  color: var(--color-text);
+  font-family: var(--font-heading);
+  font-size: 1.1rem;
+  line-height: 1.2;
+  opacity: 0;
+  transition: opacity 250ms ease;
+}
+
+.card:hover .card__overlay,
+.card:focus-within .card__overlay {
+  opacity: 1;
+}
+
+.card__badge {
+  position: absolute;
+  top: var(--space-sm);
+  right: var(--space-sm);
+  z-index: 2;
+  padding: var(--space-xs) var(--space-sm);
+  background: var(--color-accent);
+  color: var(--color-bg);
+  font-size: 0.8rem;
+  border-radius: 999px;
+}
+
+.card__body {
+  padding: var(--pad);
 }
 
 .card__title {
@@ -446,29 +728,20 @@ a[href^="http"]::after {
   text-overflow: ellipsis;
   line-height: 1.3;
   margin: 0 0 var(--space-sm);
+  font-size: 1rem;
 }
 
 .card__meta,
 .card__id {
   margin: 0 0 var(--space-sm);
+  font-size: 0.85rem;
 }
 
 .card__id {
   font-family: var(--font-mono);
-  font-size: 0.85rem;
+  font-size: 0.8rem;
   /* Без nowrap: довгий код переноситься, а не обрізається */
   overflow-wrap: anywhere;
-}
-
-.card__badge {
-  position: absolute;
-  top: var(--space-sm);
-  right: var(--space-sm);
-  padding: var(--space-xs) var(--space-sm);
-  background: var(--color-accent);
-  color: var(--color-bg);
-  font-size: 0.8rem;
-  border-radius: 999px;
 }
 
 /* margin-top: auto забирає весь вільний простір по вертикалі,
@@ -480,16 +753,20 @@ a[href^="http"]::after {
   flex-wrap: wrap;
   gap: var(--space-sm);
   margin-top: auto;
-  padding: 0 var(--space-md) var(--space-md);
+  padding: 0 var(--pad) var(--pad);
 }
 
 .card__action,
 .card__actions button {
-  padding: var(--space-sm) var(--space-md);
+  display: inline-flex;
+  align-items: center;
+  min-height: var(--tap);
+  padding: 0 var(--space-md);
   border: none;
   border-radius: var(--radius);
   background: var(--color-accent);
   font: inherit;
+  font-size: 0.85rem;
   text-decoration: none;
   cursor: pointer;
 }
@@ -502,11 +779,44 @@ a[href^="http"]::after {
   color: var(--color-bg);
 }
 
+/* ===== Індикатор завантаження (заготовка для LR10) ===== */
+.loader {
+  display: flex;
+  align-items: center;
+  gap: var(--space-md);
+  margin-bottom: var(--space-md);
+}
+
+/* Без цього правила display: flex перебиває атрибут hidden, і індикатор був би видимий */
+.loader[hidden] {
+  display: none;
+}
+
+/* linear, а не ease: обертання має бути рівномірним. З ease кожен оберт
+   починався б повільно, прискорювався й знову гальмував, і спінер
+   здавався б таким, що смикається. */
+.spinner {
+  width: 48px;
+  height: 48px;
+  border: 6px solid var(--color-surface);
+  border-top-color: var(--color-accent);
+  border-radius: 50%;
+  animation: spin 900ms linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
 /* ===== Модальне вікно <dialog> ===== */
 /* z-index не потрібен: showModal() кладе вікно у верхній шар
    (top layer) браузера, і воно лежить над усім незалежно від z-index. */
 dialog {
   width: min(90%, 420px);
+  max-height: 85vh;
+  overflow-y: auto;
   padding: var(--space-lg);
   border: none;
   border-radius: var(--radius);
@@ -524,21 +834,68 @@ body:has(dialog[open]) {
   overflow: hidden;
 }
 
-/* ===== На вузьких екранах макет у одну колонку (необов'язково) ===== */
-@media (max-width: 800px) {
-  .layout {
-    grid-template-columns: 1fr;
-    grid-template-areas:
-      "nav"
-      "main"
-      "side"
-      "foot";
-    grid-template-rows: auto;
+/* Анімація появи: у кадрах тільки opacity і transform.
+   Тло з'являється швидше (200ms), саме вікно трохи "доганяє" (280ms).
+   both = backwards + forwards: до старту анімації елемент уже має
+   кадр from, а після завершення лишається в кадрі to. Без both під час
+   затримки блок був би видимий у кінцевому вигляді й різко стрибнув би на from. */
+@keyframes fade {
+  from {
+    opacity: 0;
   }
-  .layout--two {
-    grid-template-areas:
-      "nav"
-      "main"
-      "foot";
+
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes pop {
+  from {
+    opacity: 0;
+    transform: translateY(24px) scale(0.96);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+dialog[open] {
+  animation: pop 280ms ease-out both;
+}
+
+dialog[open]::backdrop {
+  animation: fade 200ms ease-out both;
+}
+
+/* ===== Повага до prefers-reduced-motion =====
+   Рух на екрані може викликати запаморочення й нудоту, тому за запитом
+   системи робимо анімації й переходи майже миттєвими. 0.01ms, а не 0,
+   щоб події animationend усе одно спрацьовували. !important виправданий:
+   це налаштування користувача, воно має перебивати будь-які правила
+   автора незалежно від специфічності. */
+@media (prefers-reduced-motion: reduce) {
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  /* Безпечний відгук замість руху: картка не підстрибує й не збільшується,
+     але колір рамки показує, що вона активна */
+  .card:hover,
+  .card:focus-within {
+    transform: none;
+    border-color: var(--color-accent);
+  }
+
+  .card:hover .card__img,
+  .card:focus-within .card__img {
+    transform: none;
   }
 }
