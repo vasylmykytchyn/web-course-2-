@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Бронювання квитка — Кіносвіт</title>
     <link rel="stylesheet" href="css/styles.css">
 </head>
@@ -12,14 +12,17 @@
 
     <header>
         <h1>Кіносвіт</h1>
-        <nav aria-label="Головне меню">
-            <ul>
-                <li><a href="index.html">Головна</a></li>
-                <li><a href="catalog.html">Каталог</a></li>
-                <li><a href="#">Розклад</a></li>
-                <li><a href="form.html" class="current">Бронювання</a></li>
-                <li><a href="#">Про кінотеатр</a></li>
-            </ul>
+        <nav class="nav" aria-label="Головне меню">
+            <details open>
+                <summary class="nav__toggle">☰ Меню</summary>
+                <ul class="nav__list">
+                    <li><a href="index.html">Головна</a></li>
+                    <li><a href="catalog.html">Каталог</a></li>
+                    <li><a href="catalog.html#schedule">Розклад</a></li>
+                    <li><a href="form.html" class="current">Бронювання</a></li>
+                    <li><a href="index.html#about">Про кінотеатр</a></li>
+                </ul>
+            </details>
         </nav>
     </header>
 
