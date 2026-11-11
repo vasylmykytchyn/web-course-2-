@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="uk">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Бронювання квитка — Кіносвіт</title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+
+<body>
+
+    <header>
+        <h1>Кіносвіт</h1>
+        <nav class="nav" aria-label="Головне меню">
+            <details open>
+                <summary class="nav__toggle">☰ Меню</summary>
+                <ul class="nav__list">
+                    <li><a href="index.html">Головна</a></li>
+                    <li><a href="catalog.html">Каталог</a></li>
+                    <li><a href="catalog.html#schedule">Розклад</a></li>
+                    <li><a href="form.html" class="current">Бронювання</a></li>
+                    <li><a href="index.html#about">Про кінотеатр</a></li>
+                </ul>
+            </details>
+        </nav>
+    </header>
+
+    <main>
+        <h2>Бронювання квитка на сеанс</h2>
+        <p>
+            Заповніть форму нижче, щоб забронювати місце на обраний сеанс.
+            Після відправлення форми ваше бронювання буде оброблено адміністратором кінотеатру.
+        </p>
+
+        <form action="https://httpbin.org/post" method="post">
+            <!-- method="post": форма створює нове бронювання, тому повторне
+     надсилання по F5 не повинно відбуватись випадково, і дані
+     бронювання не мають зберігатись в URL -->
+
+            <fieldset>
+                <legend>Дані глядача</legend>
+
+                <p>
+                    <label class="required" for="fullname">Прізвище та ім'я</label><br>
+                    <input type="text" id="fullname" name="fullname" placeholder="Коваленко Іван" autocomplete="name"
+                        minlength="2" maxlength="60" required>
+                </p>
+
+                <p>
+                    <label class="required" for="email">Електронна пошта</label><br>
+                    <input type="email" id="email" name="email" placeholder="ivan@example.com" autocomplete="email"
+                        required>
+                </p>
+
+                <p>
+                    <!-- pattern="\+380\d{9}"
+       \+380   — буквальний префікс +380
+       \d{9}   — рівно дев'ять цифр після нього
+       Разом: +380671234567 -->
+                    <label class="required" for="phone">Телефон</label><br>
+                    <input type="tel" id="phone" name="phone" placeholder="+380671234567" autocomplete="tel"
+                        pattern="\+380\d{9}" title="Формат: +380 і дев'ять цифр, наприклад +380671234567" required>
+                </p>
+
+                <p>
+                    <label class="required" for="visit-date">Дата сеансу</label><br>
+                    <input type="date" id="visit-date" name="visit-date" min="2026-10-12" max="2026-12-31" required>
+                </p>
+
+            </fieldset>
+
+            <fieldset>
+                <legend>Деталі бронювання</legend>
+
+                <p>
+                    <label class="required" for="movie">Фільм</label><br>
+                    <select id="movie" name="movie" required>
+                        <option value="">— оберіть —</option>
+                        <option value="spiderman">Людина-павук: Абсолютно новий день</option>
+                        <option value="odyssey">Одіссея</option>
+                        <option value="fall2">Fall 2: Dead Point</option>
+                        <option value="other">Інший фільм</option>
+                    </select>
+                </p>
+
+                <p>
+                    <label for="tickets-count">Кількість квитків</label><br>
+                    <input type="number" id="tickets-count" name="tickets-count" min="1" max="5" step="1" value="1">
+                </p>
+
+                <p>
+                    <!-- pattern="CIN-\d{4}-[A-Z]\d{2}"
+       CIN-     — буквальний префікс CIN та дефіс
+       \d{4}    — рівно чотири цифри (рік)
+       -        — буквальний дефіс
+       [A-Z]    — одна велика латинська літера (ряд)
+       \d{2}    — рівно дві цифри (номер місця)
+       Разом: CIN-2026-A17 -->
+                    <label for="booking-code">Код бронювання</label><br>
+                    <input type="text" id="booking-code" name="booking-code" placeholder="CIN-2026-A17"
+                        pattern="CIN-\d{4}-[A-Z]\d{2}" title="Формат: CIN-РРРР-ЛНН, наприклад CIN-2026-A17">
+                </p>
+
+                <fieldset>
+                    <legend>Тип квитка</legend>
+                    <label><input type="radio" name="ticket-type" value="standard" checked> Звичайний</label><br>
+                    <label><input type="radio" name="ticket-type" value="student"> Студентський</label><br>
+                    <label><input type="radio" name="ticket-type" value="child"> Дитячий</label>
+                </fieldset>
+
+                <fieldset>
+                    <legend>Додаткові опції</legend>
+                    <label><input type="checkbox" name="extras" value="popcorn"> Попкорн</label><br>
+                    <label><input type="checkbox" name="extras" value="3d-glasses"> 3D-окуляри</label><br>
+                    <label><input type="checkbox" name="extras" value="aisle-seat"> Місце біля проходу</label>
+                </fieldset>
+
+            </fieldset>
+
+            <fieldset>
+                <legend>Додатково</legend>
+
+                <p>
+                    <label for="comment">Коментар до замовлення</label><br>
+                    <textarea id="comment" name="comment" rows="4" maxlength="300"
+                        placeholder="Наприклад: потрібне місце для людини з інвалідністю"></textarea>
+                </p>
+
+                <p>
+                    <label class="required"><input type="checkbox" id="agree" name="agree" required>
+                        Погоджуюсь з правилами обробки персональних даних</label>
+                </p>
+
+            </fieldset>
+
+            <p>
+                <button type="submit">Забронювати</button>
+                <button type="reset">Очистити форму</button>
+            </p>
+
+        </form>
+
+    </main>
+
+    <footer>
+        <p>Кібербезпека 1 група, Микитчин В.М, 2026</p>
+    </footer>
+
+</body>
+
+</html>
