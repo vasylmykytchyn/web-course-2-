@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="uk">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Каталог фільмів — Кіносвіт</title>
+  <link rel="stylesheet" href="css/styles.css">
+  <script src="js/app.js" defer></script>
+</head>
+
+<body>
+
+  <header>
+    <h1>Кіносвіт</h1>
+    <div class="header__tools">
+      <button id="theme" class="btn btn--outline theme-btn" type="button" aria-pressed="false">🌙 Темна тема</button>
+      <button id="burger" class="btn burger" type="button" aria-expanded="false" aria-controls="menu" aria-label="Меню">☰</button>
+    </div>
+    <nav id="menu" class="menu" aria-label="Головне меню">
+      <ul class="nav__list">
+        <li><a href="index.html">Головна</a></li>
+        <li><a href="catalog.html" class="current">Каталог</a></li>
+        <li><a href="catalog.html#schedule">Розклад</a></li>
+        <li><a href="form.html">Бронювання</a></li>
+        <li><a href="index.html#about">Про кінотеатр</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <div class="layout">
+
+    <nav class="layout__nav" aria-label="Рубрики каталогу">
+      <h2>Рубрики</h2>
+      <ul>
+        <li><a href="catalog.html">Усі фільми</a></li>
+        <li><a href="catalog.html">Класика кіно</a></li>
+        <li><a href="catalog.html">Прем'єри 2026</a></li>
+        <li><a href="form.html">Бронювання квитка</a></li>
+      </ul>
+    </nav>
+
+    <main class="layout__main">
+
+      <section class="catalog">
+        <h2>Каталог</h2>
+
+        <div class="loader" hidden>
+          <div class="spinner" aria-hidden="true"></div>
+          <p>Завантажуємо каталог…</p>
+        </div>
+
+        <div class="controls">
+          <div class="controls__field">
+            <label for="q">Пошук</label>
+            <input type="search" id="q" placeholder="назва або режисер" autocomplete="off">
+          </div>
+
+          <div class="controls__field">
+            <label for="filter">Жанр</label>
+            <select id="filter">
+              <option value="all">усі</option>
+              <option value="драма">Драма</option>
+              <option value="кримінал">Кримінал</option>
+              <option value="фантастика">Фантастика</option>
+              <option value="бойовик">Бойовик</option>
+              <option value="історичний">Історичний</option>
+              <option value="комедія">Комедія</option>
+              <option value="супергероїка">Супергероїка</option>
+              <option value="пригоди">Пригоди</option>
+            </select>
+          </div>
+
+          <div class="controls__field">
+            <label for="dmin">Тривалість від, хв</label>
+            <input type="number" id="dmin" min="0" max="300" step="5" placeholder="0">
+          </div>
+
+          <div class="controls__field">
+            <label for="dmax">Тривалість до, хв</label>
+            <input type="number" id="dmax" min="0" max="300" step="5" placeholder="300">
+          </div>
+
+          <button type="button" class="btn" id="reset-filters">Скинути</button>
+        </div>
+
+        <p class="controls__count" id="found" aria-live="polite"></p>
+        <p id="empty" class="empty" hidden>Нічого не знайдено. Спробуйте інший запит.</p>
+
+        <div class="cards" id="cards"></div>
+      </section>
+
+      <section id="schedule">
+        <h2>Розклад сеансів</h2>
+        <div class="table-wrap table-wrap--narrow">
+          <table>
+            <caption>Сеанси на цей тиждень</caption>
+            <thead>
+              <tr>
+                <th scope="col">Фільм</th>
+                <th scope="col">Час</th>
+                <th scope="col">Зал</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <th scope="row">Втеча з Шоушенка</th>
+                <td>12:00</td>
+                <td>Зал 1</td>
+              </tr>
+              <tr>
+                <th scope="row">Інтерстеллар</th>
+                <td>16:30</td>
+                <td>Зал 2</td>
+              </tr>
+              <tr>
+                <th scope="row">Одіссея</th>
+                <td>20:00</td>
+                <td>VIP-зал</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <section>
+        <h2>Розділи каталогу</h2>
+        <ul>
+          <li>Фільми
+            <ul>
+              <li>Драма</li>
+              <li>Комедія</li>
+              <li>Трилер
+                <ul>
+                  <li>Психологічний трилер</li>
+                  <li>Кримінальний трилер</li>
+                </ul>
+              </li>
+            </ul>
+          </li>
+          <li>Розклад сеансів
+            <ul>
+              <li>Ранкові сеанси</li>
+              <li>Вечірні сеанси</li>
+            </ul>
+          </li>
+          <li>Бронювання</li>
+        </ul>
+      </section>
+
+      <section>
+        <h2>Як забронювати місце</h2>
+        <p>Після підтвердження ви отримаєте код бронювання формату CIN-2026-A17.</p>
+        <ol>
+          <li>Оберіть фільм у каталозі</li>
+          <li>Оберіть сеанс і час</li>
+          <li>Оберіть місце в залі</li>
+          <li>Введіть контактні дані</li>
+          <li>Підтвердьте бронювання</li>
+          <li>Покажіть код бронювання на вході</li>
+          <li>Займіть своє місце в залі</li>
+        </ol>
+      </section>
+
+      <section>
+        <h2>Глосарій</h2>
+        <dl>
+          <dt>Сеанс</dt>
+          <dd>Показ фільму у визначений час у конкретному залі.</dd>
+          <dt>Бронювання</dt>
+          <dd>Резервування місця на сеанс за унікальним кодом.</dd>
+          <dt>Каса</dt>
+          <dd>Місце, де можна придбати або забрати заброньований квиток.</dd>
+          <dt>Квиток</dt>
+          <dd>Документ, що підтверджує право на місце в залі.</dd>
+          <dt>Зал</dt>
+          <dd>Приміщення для перегляду фільму.</dd>
+          <dd>Може бути звичайним або VIP.</dd>
+        </dl>
+      </section>
+
+      <section>
+        <h2>Таблиця фільмів</h2>
+        <div class="table-wrap">
+          <table>
+            <caption>Фільми в прокаті цього місяця</caption>
+            <thead>
+              <tr>
+                <th scope="col" rowspan="2">Назва</th>
+                <th scope="col" rowspan="2">Режисер</th>
+                <th scope="col" colspan="3">Характеристики</th>
+              </tr>
+              <tr>
+                <th scope="col">Жанр</th>
+                <th scope="col">Тривалість</th>
+                <th scope="col">Рейтинг</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <th scope="row">Людина-павук: Абсолютно новий день</th>
+                <td>Дестін Деніел Креттон</td>
+                <td>Супергеройський</td>
+                <td>140 хв</td>
+                <td>8.5</td>
+              </tr>
+              <tr>
+                <th scope="row">Одіссея</th>
+                <td>Крістофер Нолан</td>
+                <td>Пригодницький</td>
+                <td>165 хв</td>
+                <td>8.7</td>
+              </tr>
+              <tr>
+                <th scope="row">Fall 2: Dead Point</th>
+                <td>Скотт Манн</td>
+                <td>Трилер</td>
+                <td>105 хв</td>
+                <td>7.4</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <section>
+        <h2>Питання та відповіді</h2>
+        <details open>
+          <summary>Як скасувати бронювання?</summary>
+          <p>Скасувати бронювання можна за 30 хвилин до початку сеансу через особистий кабінет.</p>
+        </details>
+        <details>
+          <summary>Чи є знижки для студентів?</summary>
+          <p>Так, за наявності студентського квитка знижка становить 15%.</p>
+        </details>
+        <details>
+          <summary>Чи можна повернути квиток?</summary>
+          <p>Повернення можливе не пізніше ніж за 2 години до сеансу.</p>
+        </details>
+      </section>
+
+      <section class="demo" id="demo">
+        <h2>Демонстрація роботи</h2>
+
+        <h3>Усього фільмів</h3>
+        <p class="js-out" id="out-count"></p>
+
+        <h3>Нумерований список</h3>
+        <p class="js-out" id="out-numbered"></p>
+
+        <h3>Категорії</h3>
+        <p class="js-out" id="out-categories"></p>
+
+        <h3>Фільтр</h3>
+        <p class="js-out" id="out-filter"></p>
+
+        <h3>Сортування</h3>
+        <p class="js-out" id="out-sorted"></p>
+
+        <h3>Статистика і прибуток</h3>
+        <p class="js-out" id="out-stats"></p>
+      </section>
+
+    </main>
+
+    <aside class="layout__aside">
+      <h2>Корисно знати</h2>
+      <ul>
+        <li>Бронювання місця діє 15 хвилин після оформлення</li>
+        <li>Для дітей до 5 років вхід безкоштовний</li>
+        <li>Клацніть на постер або на «Детальніше», щоб побачити склад і сеанс</li>
+      </ul>
+    </aside>
+
+    <footer class="layout__footer">
+      <p>Кібербезпека 1 група, Микитчин В.М, 2026</p>
+    </footer>
+
+  </div>
+
+  <dialog id="details" aria-labelledby="d-title">
+    <h2 id="d-title"></h2>
+    <p id="d-line1"></p>
+    <p id="d-line2"></p>
+    <p id="d-line3"></p>
+    <button id="d-close" class="btn" type="button">Закрити</button>
+  </dialog>
+
+  <div id="toast" class="toast" role="status" hidden></div>
+
+</body>
+
+</html>

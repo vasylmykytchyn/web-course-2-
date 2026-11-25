@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="uk">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Кіносвіт — онлайн-кінотеатр</title>
+  <link rel="stylesheet" href="css/styles.css">
+  <script src="js/app.js" defer></script>
+</head>
+
+<body>
+
+  <header>
+    <h1>Кіносвіт</h1>
+    <div class="header__tools">
+      <button id="theme" class="btn btn--outline theme-btn" type="button" aria-pressed="false">🌙 Темна тема</button>
+      <button id="burger" class="btn burger" type="button" aria-expanded="false" aria-controls="menu"
+        aria-label="Меню">☰</button>
+    </div>
+    <nav id="menu" class="menu" aria-label="Головне меню">
+      <ul class="nav__list">
+        <li><a href="index.html" class="current">Головна</a></li>
+        <li><a href="catalog.html">Каталог</a></li>
+        <li><a href="catalog.html#schedule">Розклад</a></li>
+        <li><a href="form.html">Бронювання</a></li>
+        <li><a href="index.html#about">Про кінотеатр</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <div class="layout layout--two">
+
+    <nav class="layout__nav" aria-label="Рубрики">
+      <h2>Рубрики</h2>
+      <ul>
+        <li><a href="catalog.html">Усі фільми</a></li>
+        <li><a href="catalog.html">Класика кіно</a></li>
+        <li><a href="catalog.html">Прем'єри 2026</a></li>
+        <li><a href="form.html">Бронювання квитка</a></li>
+      </ul>
+    </nav>
+
+    <main class="layout__main">
+
+      <section class="banner">
+        <h2>Квитки на найочікуваніші прем'єри</h2>
+        <p>Оберіть фільм у каталозі та забронюйте місце на сеанс за кілька кліків.</p>
+      </section>
+
+      <img class="hero-img" src="images/cinema-banner-1.jpg" alt="Постер-банер онлайн-кінотеатру Кіносвіт" width="300"
+        height="449">
+
+      <section>
+        <h2 id="about">Про проєкт</h2>
+        <p>
+          «Кіносвіт» — це <strong>онлайн-кінотеатр</strong>, де зібрана добірка
+          фільмів із детальною інформацією про режисерів, акторський склад
+          і касові збори. Сайт дозволяє обрати фільм і забронювати місце на сеанс.
+        </p>
+      </section>
+
+      <section>
+        <h2 id="selection">Про добірку фільмів</h2>
+        <p>
+          У каталозі представлено десять фільмів різних жанрів. Для кожного
+          вказано тривалість, режисера та трьох ключових акторів.
+          <em>Особливу увагу</em> приділено касовим показникам — бюджету
+          та світовим зборам, за якими можна оцінити прибутковість стрічки.
+        </p>
+        <p>
+          Кожен фільм у каталозі супроводжується рейтингами глядачів
+          та переліком локацій зйомок, що дозволяє глибше зануритись
+          у процес створення улюбленої стрічки.
+        </p>
+
+        <article id="promo">
+          <header>
+            <h3>Людина-павук: Абсолютно новий день</h3>
+          </header>
+          <img src="images/cinema-banner.webp" alt="Постер фільму «Людина-павук: Абсолютно новий день»" width="300"
+            height="449" loading="lazy">
+          <p> Черговий фільм про пригоди супергероя Людини-павука, який
+            цього разу стикається з новою загрозою для міста. Стрічка
+            поєднує динамічні бойові сцени з елементами драми про
+            відповідальність та особистий вибір героя.</p>
+          <footer>
+            <p>Рейтинг: 8.5. Дата виходу: <time datetime="2026-07-31">31 липня 2026</time></p>
+          </footer>
+        </article>
+
+        <article>
+          <header>
+            <h3>Одіссея</h3>
+          </header>
+          <figure>
+            <img src="images/odyssey.jpg" alt="Постер фільму «Одіссея»" width="300" height="449" loading="lazy">
+            <figcaption>Постер фільму «Одіссея»</figcaption>
+          </figure>
+          <p> Масштабна екранізація давньогрецького епосу про мандри Одіссея
+            додому після Троянської війни — випробування морем, богами
+            та власними слабкостями.</p>
+          <footer>
+            <p>Рейтинг: 8.7. Дата виходу: <time datetime="2026-07-17">17 липня 2026</time></p>
+          </footer>
+        </article>
+
+        <blockquote>Кіно починається там, де закінчуються слова.</blockquote>
+
+        <p>
+          Дізнатися більше про світовий кінематограф можна на
+          <a href="https://www.imdb.com" target="_blank" rel="noopener noreferrer">сайті IMDb</a>.
+          Детальніше про нашу концепцію читайте у розділі
+          <a href="#selection">про добірку фільмів</a>.
+        </p>
+      </section>
+
+      <aside>
+        <h2>Корисно знати</h2>
+        <ul>
+          <li>Бронювання місця діє 15 хвилин після оформлення</li>
+          <li>Для дітей до 5 років вхід безкоштовний</li>
+        </ul>
+      </aside>
+
+    </main>
+
+    <footer class="layout__footer">
+      <p>Кібербезпека 1 група, Микитчин В.М, 2026</p>
+    </footer>
+
+  </div>
+
+</body>
+
+</html>
