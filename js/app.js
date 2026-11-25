@@ -1,303 +1,98 @@
 // ==========================================================
 // Проєкт: Кіносвіт — онлайн-кінотеатр (варіант 4)
-// Файл: js/app.js — дані, обробка (LR8) і поведінка сторінок (LR9)
+// Файл: js/app.js — завантаження даних, каталог, модалка, форма,
+// меню, тема, localStorage (LR10)
 // Скрипт підключено на всіх сторінках, тому кожна секція внизу
 // спершу перевіряє, чи є потрібні їй елементи на цій сторінці.
 // ==========================================================
 
-// ===== 1. Дані =====
-// Дані набрано вручну; у LR10 вони поїдуть у зовнішній JSON і
-// завантажуватимуться через fetch, а масив films лишиться тим самим.
-// Тривалість — у хвилинах, бюджет і збори — у млн $ (округлено;
-// для фільмів 2026 року збори орієнтовні, станом на початок вересня 2026).
-// const забороняє лише перепризначити змінну films на інше значення,
-// а сам масив залишається змінним, тому films.push(...) працює.
-const films = [
-  {
-    id: 1,
-    code: "CIN-2026-A17",
-    title: "Втеча з Шоушенка",
-    director: "Френк Дарабонт",
-    year: 1994,
-    duration: 142,
-    rating: 9.3,
-    budget: 25,
-    gross: 29,
-    genre: "драма",
-    premiere: false,
-    img: "images/shawshank.jpg",
-    session: { hall: "Зал 1", time: "12:00" },
-    actors: [
-      "Тім Роббінс — Енді Дюфрейн",
-      "Морган Фріман — Елліс «Ред» Реддінг",
-      "Боб Гантон — начальник в'язниці Нортон"
-    ]
-  },
-  {
-    id: 2,
-    code: "CIN-2026-B24",
-    title: "Хрещений батько",
-    director: "Френсіс Форд Коппола",
-    year: 1972,
-    duration: 175,
-    rating: 9.2,
-    budget: 6,
-    gross: 250,
-    genre: "кримінал",
-    premiere: false,
-    img: "images/godfather.jpg",
-    session: { hall: "Зал 3", time: "14:00" },
-    actors: [
-      "Марлон Брандо — Віто Корлеоне",
-      "Аль Пачино — Майкл Корлеоне",
-      "Джеймс Каан — Сонні Корлеоне",
-      "Роберт Дювалл — Том Гейген"
-    ]
-  },
-  {
-    id: 3,
-    code: "CIN-2026-C05",
-    title: "Інтерстеллар",
-    director: "Крістофер Нолан",
-    year: 2014,
-    duration: 169,
-    rating: 8.7,
-    budget: 165,
-    gross: 730,
-    genre: "фантастика",
-    premiere: false,
-    img: "images/interstellar.jpg",
-    session: { hall: "Зал 2", time: "16:30" },
-    actors: [
-      "Меттью Макконегі — Купер",
-      "Енн Гетевей — Амелія Бренд",
-      "Джессіка Честейн — Мерф"
-    ]
-  },
-  {
-    id: 4,
-    code: "CIN-2026-D31",
-    title: "Темний лицар",
-    director: "Крістофер Нолан",
-    year: 2008,
-    duration: 152,
-    rating: 9.0,
-    budget: 185,
-    gross: 1006,
-    genre: "бойовик",
-    premiere: false,
-    img: "images/dark-knight.jpg",
-    session: { hall: "Зал 1", time: "19:00" },
-    actors: [
-      "Крістіан Бейл — Брюс Вейн / Бетмен",
-      "Гіт Леджер — Джокер",
-      "Аарон Екгарт — Гарві Дент",
-      "Майкл Кейн — Альфред"
-    ]
-  },
-  {
-    id: 5,
-    code: "CIN-2026-E12",
-    title: "Форрест Гамп",
-    director: "Роберт Земекіс",
-    year: 1994,
-    duration: 142,
-    rating: 8.8,
-    budget: 55,
-    gross: 678,
-    genre: "драма",
-    premiere: false,
-    img: "images/forrest-gump.jpg",
-    session: { hall: "Зал 2", time: "13:15" },
-    actors: [
-      "Том Генкс — Форрест Гамп",
-      "Робін Райт — Дженні Каррен"
-    ]
-  },
-  {
-    id: 6,
-    code: "CIN-2026-F09",
-    title: "Гладіатор",
-    director: "Рідлі Скотт",
-    year: 2000,
-    duration: 155,
-    rating: 8.5,
-    budget: 103,
-    gross: 460,
-    genre: "історичний",
-    premiere: false,
-    img: "images/gladiator.jpg",
-    session: { hall: "Зал 3", time: "21:00" },
-    actors: [
-      "Расселл Кроу — Максимус",
-      "Хоакін Фенікс — Коммод",
-      "Конні Нільсен — Луцілла"
-    ]
-  },
-  {
-    id: 7,
-    code: "CIN-2026-G21",
-    title: "Один вдома",
-    director: "Кріс Коламбус",
-    year: 1990,
-    duration: 103,
-    rating: 7.7,
-    budget: 18,
-    gross: 476,
-    genre: "комедія",
-    premiere: false,
-    img: "images/home-alone.jpg",
-    session: { hall: "Зал 3", time: "11:00" },
-    actors: [
-      "Маколей Калкін — Кевін Маккалістер",
-      "Джо Пеші — Гаррі Лайм",
-      "Деніел Стерн — Марв Мерчінс"
-    ]
-  },
-  {
-    id: 8,
-    code: "CIN-2026-H14",
-    title: "Людина-павук: Абсолютно новий день",
-    director: "Дестін Деніел Креттон",
-    year: 2026,
-    duration: 140,
-    rating: 8.5,
-    budget: 225,
-    gross: 2400,
-    genre: "супергероїка",
-    premiere: true,
-    img: "images/cinema-banner.webp",
-    session: { hall: "Зал 1", time: "16:00" },
-    actors: [
-      "Том Голланд — Пітер Паркер / Людина-павук",
-      "Зендея — Ем-Джей",
-      "Джейкоб Баталон — Нед Лідс"
-    ]
-  },
-  {
-    id: 9,
-    code: "CIN-2026-J07",
-    title: "Одіссея",
-    director: "Крістофер Нолан",
-    year: 2026,
-    duration: 165,
-    rating: 8.7,
-    budget: 250,
-    gross: 1590,
-    genre: "пригоди",
-    premiere: true,
-    img: "images/odyssey.jpg",
-    session: { hall: "VIP-зал", time: "20:00" },
-    actors: [
-      "Метт Деймон — Одіссей",
-      "Том Голланд — Телемах",
-      "Зендея — Афіна"
-    ]
-  }
-];
-
-// ===== 2. Допоміжні функції =====
-
-// Записує текст у елемент за id; масив рядків склеює переносами.
-// Єдина функція, що пише в демо-блок #demo (LR8).
-const show = (id, value) => {
-  const box = document.getElementById(id);
-  if (box === null) {
-    console.error("Немає елемента з id:", id);
-    return;
-  }
-  box.textContent = Array.isArray(value) ? value.join("\n") : value;
+// ===== 1. Довідники =====
+// Постерів у data.json немає, тому шляхи до них зберігаються тут.
+const POSTERS = {
+  "Interstellar": "images/interstellar.jpg",
+  "Avatar": "images/avatar.jpg",
+  "Inception": "images/inception.jpg",
+  "The Lord of the Rings: The Fellowship of the Ring": "images/fellowship.jpg",
+  "The Matrix": "images/matrix.jpg",
+  "Dune": "images/dune.jpg",
+  "Blade Runner 2049": "images/blade-runner-2049.jpg",
+  "The Dark Knight": "images/dark-knight.jpg",
+  "The Shawshank Redemption": "images/shawshank.jpg",
+  "Gladiator": "images/gladiator.jpg"
 };
 
-// Приймає фільм, повертає його прибуток у млн $ (збори мінус бюджет).
-const profitOf = (film) => film.gross - film.budget;
-
-// Приймає масив і функцію форматування, повертає масив рядків
-// або повідомлення, що нічого не знайдено.
-const listLines = (items, format) =>
-  items.length > 0 ? items.map(format) : ["  нічого не знайдено"];
-
-// Приймає рядок, повертає його з великої літери.
-const capitalize = (text) => text.charAt(0).toUpperCase() + text.slice(1);
-
-// ===== 3. Функції обробки (LR8) =====
-
-// Приймає фільм, повертає назву групи за жанром (тільки switch).
-function categoryOf(film) {
-  switch (film.genre) {
-    case "драма":
-    case "кримінал":
-      return "Класика кіно";
-    case "фантастика":
-    case "бойовик":
-      return "Блокбастери";
-    default:
-      return "Інші жанри";
-  }
-}
-
-// Приймає масив фільмів, повертає масив рядків
-// "1. Назва — режисер, рік (зал, час)" (класичний цикл for).
-function numberedList(items) {
-  const lines = [];
-  for (let i = 0; i < items.length; i++) {
-    const f = items[i];
-    lines.push(`${i + 1}. ${f.title} — ${f.director}, ${f.year} (${f.session.hall}, ${f.session.time})`);
-  }
-  return lines;
-}
-
-// Приймає масив і жанр, повертає фільми цього жанру (нічого не змінює).
-const filterByGenre = (items, value) => items.filter((f) => f.genre === value);
-
-// Приймає масив і поріг у хвилинах, повертає фільми довші за поріг.
-const filterByDurationOver = (items, minutes) => items.filter((f) => f.duration > minutes);
-
-// Приймає масив, повертає КОПІЮ, відсортовану за роком зростання.
-// [...items] потрібен, бо sort() змінює масив, для якого викликаний.
-const sortByYear = (items) => [...items].sort((a, b) => a.year - b.year);
-
-// Приймає масив, повертає КОПІЮ, відсортовану за назвою в українській абетці.
-const sortByTitle = (items) => [...items].sort((a, b) => a.title.localeCompare(b.title, "uk"));
-
-// Приймає масив фільмів, повертає об'єкт зі статистикою.
-const statsForFilms = (items) => {
-  // Початкове значення 0 потрібне, щоб сума починалася з числа.
-  // Без нього акумулятором став би перший фільм (об'єкт), і результат
-  // перетворився б на рядок "[object Object]9.2..." замість числа.
-  const total = items.reduce((sum, f) => sum + f.rating, 0);
-
-  // Порівнюємо накопичувач best із поточним записом f.
-  const topRated = items.reduce((best, f) => (f.rating > best.rating ? f : best));
-  const mostProfitable = items.reduce((best, f) => (profitOf(f) > profitOf(best) ? f : best));
-
-  return {
-    count: items.length,
-    total,
-    average: (total / items.length).toFixed(1),
-    topRated,
-    mostProfitable,
-    genres: new Set(items.map((f) => f.genre)).size
-  };
+// Українські підписи жанрів (у даних вони англійською).
+const GENRE_LABELS = {
+  "sci-fi": "Фантастика",
+  "drama": "Драма",
+  "adventure": "Пригоди",
+  "fantasy": "Фентезі",
+  "thriller": "Трилер",
+  "action": "Бойовик",
+  "epic": "Епос",
+  "neo-noir": "Неонуар",
+  "crime": "Кримінал",
+  "historical": "Історичний"
 };
 
-// ===== 4. Нові фільтри (LR9) =====
+// Підписи полів вкладеного об'єкта boxOffice.
+const BOX_LABELS = {
+  budget_million: "Бюджет",
+  gross_worldwide_million: "Збори у світі"
+};
 
-// Приймає масив і межі в хвилинах, повертає фільми з тривалістю в діапазоні.
-const filterByDurationRange = (items, min, max) =>
-  items.filter((f) => f.duration >= min && f.duration <= max);
-
-// Приймає масив і запит (уже в нижньому регістрі), повертає фільми,
-// у яких запит міститься в назві або в імені режисера.
-const filterByText = (items, query) =>
-  items.filter((f) =>
-    f.title.toLowerCase().includes(query) || f.director.toLowerCase().includes(query));
-
-// ===== 5. Тост: тимчасове повідомлення =====
-const toastEl = document.getElementById("toast");
+// ===== 2. Стан =====
+// Дані приїжджають із data.json після завантаження (див. loadData),
+// тому на старті масив порожній. Це let, а не const, бо значення
+// присвоюється пізніше.
+let items = [];
+let watchLater = loadWatchLater(); // id фільмів зі списку «Дивитися пізніше»
 let toastTimer = null;
 
-// Показує повідомлення на 2,5 секунди.
+// ===== 3. Допоміжні функції =====
+
+// Приймає ключ жанру, повертає український підпис (або сам ключ).
+const genreLabel = (key) => GENRE_LABELS[key] ?? key;
+
+// Приймає кількість мільйонів, повертає рядок "2 686 млн $" з розділювачами розрядів.
+const formatMoney = (million) => `${million.toLocaleString("uk-UA")} млн $`;
+
+// Приймає фільм, повертає прибуток у млн $ (збори мінус бюджет); у даних цього поля немає.
+const profitOf = (film) =>
+  film.boxOffice.gross_worldwide_million - film.boxOffice.budget_million;
+
+// Приймає фільм, повертає середню оцінку глядачів (0, якщо оцінок немає).
+const averageRating = (film) =>
+  film.ratings.length === 0
+    ? 0
+    : film.ratings.reduce((sum, rating) => sum + rating, 0) / film.ratings.length;
+
+// Приймає id, повертає код бронювання формату CIN-2026-A17 (літера ряду + номер місця).
+// У даних коду немає, тому він обчислюється з id.
+const bookingCode = (id) =>
+  `CIN-2026-${String.fromCharCode(64 + id)}${String((id * 7) % 90 + 10)}`;
+
+// Читає список «Дивитися пізніше» зі сховища; на будь-яку проблему повертає [].
+function loadWatchLater() {
+  try {
+    const raw = localStorage.getItem("watchLater");
+    if (raw === null) return [];
+    const parsed = JSON.parse(raw); // вміст могли зіпсувати вручну
+    return Array.isArray(parsed) ? parsed : [];
+  } catch (error) {
+    return [];
+  }
+}
+
+// Зберігає список id у сховищі як JSON-рядок
+// (localStorage зберігає лише рядки: без stringify масив став би "1,2,3").
+function saveWatchLater(list) {
+  localStorage.setItem("watchLater", JSON.stringify(list));
+}
+
+// Показує тимчасове повідомлення на 2,5 секунди.
+const toastEl = document.getElementById("toast");
+
 function showToast(text) {
   if (toastEl === null) return;
   toastEl.textContent = text;
@@ -311,50 +106,37 @@ function showToast(text) {
   }, 2500);
 }
 
-// ===== 6. Демонстрація LR8 (тільки на сторінці, де є #demo) =====
-if (document.getElementById("demo") !== null) {
-  const stats = statsForFilms(films);
-  const dramas = filterByGenre(films, "драма");
-  const longFilms = filterByDurationOver(films, 150);
-  const cartoons = filterByGenre(films, "мультфільм"); // навмисно порожній результат
+// ===== 4. Фільтри та сортування =====
 
-  show("out-count", `Фільмів у каталозі: ${films.length}`);
+// Приймає масив і ключ жанру, повертає фільми, у яких він є в списку genres.
+const filterByGenre = (list, genre) => list.filter((f) => f.genres.includes(genre));
 
-  show("out-numbered", numberedList(films));
+// Приймає масив і межі в хвилинах, повертає фільми з тривалістю в діапазоні.
+const filterByDurationRange = (list, min, max) =>
+  list.filter((f) => f.duration_min >= min && f.duration_min <= max);
 
-  show("out-categories", films.map((f) => `${f.title} → ${categoryOf(f)}`));
+// Приймає масив і запит (у нижньому регістрі), повертає фільми,
+// у яких запит міститься в назві або в імені режисера.
+const filterByText = (list, query) =>
+  list.filter((f) =>
+    f.title.toLowerCase().includes(query) || f.director.toLowerCase().includes(query));
 
-  show("out-filter", [
-    `За жанром «драма»: знайдено ${dramas.length}`,
-    ...listLines(dramas, (f) => `  • ${f.title}`),
-    `Довші за 150 хв: знайдено ${longFilms.length}`,
-    ...listLines(longFilms, (f) => `  • ${f.title} — ${f.duration} хв`),
-    `За жанром «мультфільм»: знайдено ${cartoons.length}`,
-    ...listLines(cartoons, (f) => `  • ${f.title}`)
-  ]);
-
-  show("out-sorted", [
-    "За роком виходу (від старих до нових):",
-    ...sortByYear(films).map((f) => `  ${f.year} — ${f.title}`),
-    "За назвою (А–Я):",
-    ...sortByTitle(films).map((f) => `  ${f.title}`),
-    "Вихідний порядок (оригінал не змінено):",
-    ...films.map((f) => `  ${f.id}. ${f.title}`)
-  ]);
-
-  show("out-stats", [
-    `Кількість фільмів: ${stats.count}`,
-    `Сума рейтингів: ${stats.total.toFixed(1)}`,
-    `Середній рейтинг: ${stats.average}`,
-    `Найвищий рейтинг: ${stats.topRated.title} (${stats.topRated.rating})`,
-    `Різних жанрів: ${stats.genres}`,
-    `Найприбутковіший: ${stats.mostProfitable.title} (${profitOf(stats.mostProfitable)} млн $)`,
-    "Прибуток кожного фільму (збори − бюджет):",
-    ...films.map((f) => `  ${f.title}: ${profitOf(f)} млн $`)
-  ]);
+// Приймає масив і режим, повертає КОПІЮ, відсортовану за обраним режимом.
+// [...list] потрібен, бо sort() змінює масив, для якого викликаний.
+function sortFilms(list, mode) {
+  switch (mode) {
+    case "year":
+      return [...list].sort((a, b) => b.year - a.year);
+    case "rating":
+      return [...list].sort((a, b) => averageRating(b) - averageRating(a));
+    case "profit":
+      return [...list].sort((a, b) => profitOf(b) - profitOf(a));
+    default:
+      return list;
+  }
 }
 
-// ===== 7. Каталог: рендер, пошук, фільтри, модалка =====
+// ===== 5. Каталог: завантаження, рендер, фільтри, модалка =====
 const cardsEl = document.getElementById("cards");
 
 if (cardsEl !== null) {
@@ -362,9 +144,28 @@ if (cardsEl !== null) {
   const genreEl = document.getElementById("filter");
   const minEl = document.getElementById("dmin");
   const maxEl = document.getElementById("dmax");
+  const sortEl = document.getElementById("sort");
+  const onlySavedEl = document.getElementById("only-saved");
   const emptyEl = document.getElementById("empty");
   const foundEl = document.getElementById("found");
   const resetEl = document.getElementById("reset-filters");
+  const loader = document.querySelector(".loader");
+  const errorEl = document.getElementById("load-error");
+
+  const dlg = document.getElementById("details");
+  const dTitle = document.getElementById("d-title");
+  const dMain = document.getElementById("d-main");
+  const dObject = document.getElementById("d-object");
+  const dList = document.getElementById("d-list");
+  const dTable = document.getElementById("d-table");
+
+  // Створює елемент з текстом і (за потреби) класом; текст іде лише через textContent.
+  const makeEl = (tag, text, className) => {
+    const el = document.createElement(tag);
+    if (text !== undefined) el.textContent = text;
+    if (className !== undefined) el.className = className;
+    return el;
+  };
 
   // Будує картки з масиву; усі дані потрапляють на сторінку
   // тільки через textContent або атрибути src/alt, жодного innerHTML.
@@ -372,6 +173,9 @@ if (cardsEl !== null) {
     cardsEl.replaceChildren();
 
     for (const film of list) {
+      const average = averageRating(film);
+      const saved = watchLater.includes(film.id);
+
       const card = document.createElement("article");
       card.className = "card";
       card.dataset.id = film.id;
@@ -379,13 +183,14 @@ if (cardsEl !== null) {
       const media = document.createElement("div");
       media.className = "card__media";
 
+      // Клас бейджа залежить від даних: висока середня оцінка — акцентний бейдж.
       const badge = document.createElement("span");
-      badge.className = film.premiere ? "card__badge" : "card__badge card__badge--regular";
-      badge.textContent = film.premiere ? "Прем'єра" : "У прокаті";
+      badge.className = average >= 9 ? "card__badge" : "card__badge card__badge--regular";
+      badge.textContent = `★ ${average.toFixed(1)}`;
 
       const img = document.createElement("img");
       img.className = "card__img";
-      img.src = film.img;
+      img.src = POSTERS[film.title] ?? "images/cinema-banner.webp";
       img.alt = `Постер фільму «${film.title}»`;
       img.loading = "lazy";
 
@@ -405,11 +210,11 @@ if (cardsEl !== null) {
 
       const meta = document.createElement("p");
       meta.className = "card__meta";
-      meta.textContent = `${film.year} · ${capitalize(film.genre)} · ${film.director}`;
+      meta.textContent = `${film.year} · ${film.director}`;
 
       const codeLine = document.createElement("p");
       codeLine.className = "card__id";
-      codeLine.textContent = `Код бронювання: ${film.code}`;
+      codeLine.textContent = `Код бронювання: ${bookingCode(film.id)}`;
 
       body.append(title, meta, codeLine);
 
@@ -426,9 +231,103 @@ if (cardsEl !== null) {
       more.type = "button";
       more.textContent = "Детальніше";
 
-      actions.append(book, more);
+      const fav = document.createElement("button");
+      fav.className = "card__action fav";
+      fav.type = "button";
+      fav.dataset.id = film.id;
+      fav.textContent = saved ? "✓ Пізніше" : "＋ Пізніше";
+      fav.setAttribute("aria-pressed", String(saved));
+      fav.setAttribute(
+        "aria-label",
+        saved ? "Прибрати зі списку «Дивитися пізніше»" : "Додати до списку «Дивитися пізніше»"
+      );
+
+      actions.append(book, more, fav);
       card.append(media, body, actions);
       cardsEl.append(card);
+    }
+  }
+
+  // Заповнює модалку повною деталізацією фільму: прості поля, вкладений
+  // об'єкт, масив рядків і масив об'єктів. Контейнери очищаються через
+  // replaceChildren(), тому дані двох фільмів не змішуються.
+  function fillDetails(film) {
+    dTitle.textContent = film.title;
+
+    // 1) Прості поля — список означень
+    const mainList = document.createElement("dl");
+    const mainRows = [
+      ["Режисер", film.director],
+      ["Рік", String(film.year)],
+      ["Тривалість", `${film.duration_min} хв`],
+      ["Жанри", film.genres.map(genreLabel).join(", ")],
+      ["Код бронювання", bookingCode(film.id)],
+      [
+        "Середній рейтинг",
+        film.ratings.length > 0
+          ? `${averageRating(film).toFixed(1)} (оцінок: ${film.ratings.length})`
+          : "оцінок поки немає"
+      ],
+      [
+        "Оцінки глядачів",
+        film.ratings.length > 0 ? film.ratings.join(", ") : "оцінок поки немає"
+      ]
+    ];
+    for (const [label, value] of mainRows) {
+      mainList.append(makeEl("dt", label), makeEl("dd", value));
+    }
+    dMain.replaceChildren(mainList);
+
+    // 2) Вкладений об'єкт boxOffice — перебір ключів + обчислюваний прибуток
+    const boxList = document.createElement("dl");
+    for (const [key, value] of Object.entries(film.boxOffice)) {
+      boxList.append(makeEl("dt", BOX_LABELS[key] ?? key), makeEl("dd", formatMoney(value)));
+    }
+    boxList.append(
+      makeEl("dt", "Прибуток"),
+      makeEl("dd", `${formatMoney(profitOf(film))} (збори − бюджет)`)
+    );
+    dObject.replaceChildren(makeEl("h3", "Касові збори"), boxList);
+
+    // 3) Масив рядків — локації зйомок
+    const placesTitle = makeEl("h3", "Локації зйомок");
+    if (film.locations.length === 0) {
+      dList.replaceChildren(placesTitle, makeEl("p", "Локації зйомок не вказано"));
+    } else {
+      const places = document.createElement("ul");
+      for (const place of film.locations) {
+        places.append(makeEl("li", place));
+      }
+      dList.replaceChildren(placesTitle, places);
+    }
+
+    // 4) Масив об'єктів — склад «актор — роль» таблицею
+    const castTitle = makeEl("h3", "Склад: актор — роль");
+    if (film.cast.length === 0) {
+      dTable.replaceChildren(castTitle, makeEl("p", "Склад не вказано"));
+    } else {
+      const table = document.createElement("table");
+      const head = document.createElement("thead");
+      const headRow = document.createElement("tr");
+      for (const label of ["Актор", "Роль"]) {
+        const th = makeEl("th", label);
+        th.scope = "col";
+        headRow.append(th);
+      }
+      head.append(headRow);
+
+      const bodyEl = document.createElement("tbody");
+      for (const member of film.cast) {
+        const row = document.createElement("tr");
+        row.append(makeEl("td", member.name), makeEl("td", member.role));
+        bodyEl.append(row);
+      }
+      table.append(head, bodyEl);
+
+      // Контейнер із прокруткою: широка таблиця не розтягує сторінку на 360px
+      const wrap = makeEl("div", undefined, "table-wrap table-wrap--narrow");
+      wrap.append(table);
+      dTable.replaceChildren(castTitle, wrap);
     }
   }
 
@@ -437,23 +336,104 @@ if (cardsEl !== null) {
   // інакше "до" лишилося б нулем і сховало б усі фільми.
   const readLimit = (input, fallback) => (input.value === "" ? fallback : Number(input.value));
 
-  // Збирає всі умови (жанр, тривалість, пошук) і перемальовує картки.
+  // Збирає всі умови (пошук, жанр, тривалість, «Дивитися пізніше», сортування)
+  // і перемальовує картки та лічильник.
   function applyFilters() {
     const query = searchEl.value.trim().toLowerCase();
-    const genre = genreEl.value;
     const min = readLimit(minEl, 0);
     const max = readLimit(maxEl, Infinity);
 
-    let result = films;
-    if (genre !== "all") {
-      result = filterByGenre(result, genre);
+    let result = items;
+    if (genreEl.value !== "all") {
+      result = filterByGenre(result, genreEl.value);
     }
     result = filterByDurationRange(result, min, max);
     result = filterByText(result, query);
+    if (onlySavedEl.checked) {
+      result = result.filter((f) => watchLater.includes(f.id));
+    }
+    result = sortFilms(result, sortEl.value);
 
     renderCards(result);
     emptyEl.hidden = result.length > 0;
-    foundEl.textContent = `Знайдено: ${result.length} з ${films.length}`;
+    foundEl.textContent = `Показано ${result.length} із ${items.length}`;
+  }
+
+  // Додає в список жанрів опції, зібрані з даних, а не написані руками в HTML.
+  function fillGenreOptions() {
+    const genres = [...new Set(items.flatMap((f) => f.genres))]
+      .sort((a, b) => genreLabel(a).localeCompare(genreLabel(b), "uk"));
+    for (const genre of genres) {
+      const option = document.createElement("option");
+      option.value = genre;
+      option.textContent = genreLabel(genre);
+      genreEl.append(option);
+    }
+  }
+
+  // Додає фільм у «Дивитися пізніше» або прибирає, зберігає список
+  // і повертає фокус на ту саму кнопку після перемальовування.
+  function toggleWatchLater(id) {
+    if (watchLater.includes(id)) {
+      watchLater = watchLater.filter((savedId) => savedId !== id);
+      showToast("Прибрано зі списку «Дивитися пізніше»");
+    } else {
+      watchLater = [...watchLater, id];
+      showToast("Додано до «Дивитися пізніше»");
+    }
+    saveWatchLater(watchLater);
+    applyFilters();
+
+    const again = cardsEl.querySelector(`.fav[data-id="${id}"]`);
+    if (again !== null) again.focus();
+  }
+
+  // Завантажує data.json і повертає масив фільмів з доданим id.
+  // fetch не кидає помилку на HTTP 404/500: він повертає відповідь із
+  // ok === false. Без перевірки response.ok ми б спробували розібрати
+  // HTML-сторінку помилки як JSON і отримали б незрозумілий SyntaxError
+  // замість "HTTP 404"; тому статус перевіряємо вручну.
+  // У файлі даних поля id немає, а файл змінювати не можна,
+  // тож id (1, 2, 3…) додається тут, у пам'яті, за порядком у файлі.
+  async function loadData() {
+    const response = await fetch("data.json");
+
+    if (!response.ok) {
+      throw new Error(`HTTP ${response.status}`);
+    }
+
+    const data = await response.json();
+
+    if (!Array.isArray(data) || data.length === 0) {
+      throw new Error("Файл даних порожній або має неправильну структуру");
+    }
+
+    return data.map((film, index) => ({ ...film, id: index + 1 }));
+  }
+
+  // Показує людині повідомлення про помилку з порадою, що робити.
+  function showLoadError(error) {
+    errorEl.hidden = false;
+    errorEl.textContent =
+      `Не вдалося завантажити каталог. Перевірте з'єднання і оновіть сторінку. ` +
+      `Технічні подробиці: ${error.message}`;
+  }
+
+  // Запускає завантаження: спінер, дані, фільтри, показ помилки.
+  async function init() {
+    loader.hidden = false;
+    errorEl.hidden = true;
+    try {
+      items = await loadData();
+      fillGenreOptions();
+      applyFilters();
+    } catch (error) {
+      showLoadError(error);
+    } finally {
+      // Ховаємо спінер тут, а не в кінці try: після помилки try обривається,
+      // і спінер крутився б вічно поруч із повідомленням про помилку.
+      loader.hidden = true;
+    }
   }
 
   // input спрацьовує на кожен символ, тому список змінюється під час набирання;
@@ -462,47 +442,46 @@ if (cardsEl !== null) {
   genreEl.addEventListener("change", applyFilters);
   minEl.addEventListener("input", applyFilters);
   maxEl.addEventListener("input", applyFilters);
+  sortEl.addEventListener("change", applyFilters);
+  onlySavedEl.addEventListener("change", applyFilters);
 
   resetEl.addEventListener("click", () => {
     searchEl.value = "";
     genreEl.value = "all";
     minEl.value = "";
     maxEl.value = "";
+    sortEl.value = "default";
+    onlySavedEl.checked = false;
     applyFilters();
     showToast("Фільтри скинуто");
   });
 
-  // Модальне вікно: один обробник на контейнері для всіх карток.
-  const dlg = document.getElementById("details");
-  const dTitle = document.getElementById("d-title");
-  const dLine1 = document.getElementById("d-line1");
-  const dLine2 = document.getElementById("d-line2");
-  const dLine3 = document.getElementById("d-line3");
-
   // Делегування: слухач висить на контейнері, а не на кнопках. Подія click
-  // спливає від картки вгору до .cards, тому один слухач працює і для карток,
-  // створених пізніше, після перемальовування пошуком. Кнопки, підписані
-  // в циклі, після replaceChildren() зникли б разом зі своїми слухачами.
+  // спливає від кнопки вгору до .cards, тому один слухач працює і для карток,
+  // створених пізніше, після перемальовування пошуком або після fetch.
   cardsEl.addEventListener("click", (event) => {
+    const favButton = event.target.closest(".fav");
+    if (favButton !== null) {
+      toggleWatchLater(Number(favButton.dataset.id));
+      return; // сердечко не відкриває модалку
+    }
     if (event.target.closest("a") !== null) return; // посилання "Забронювати" працює як звичайно
+
     const card = event.target.closest(".card");
     if (card === null) return;
-    const film = films.find((f) => f.id === Number(card.dataset.id));
+    const film = items.find((f) => f.id === Number(card.dataset.id));
     if (film === undefined) return;
 
-    dTitle.textContent = film.title;
-    dLine1.textContent = `Режисер: ${film.director} · Рік: ${film.year} · Тривалість: ${film.duration} хв · Жанр: ${film.genre}`;
-    dLine2.textContent = `Код бронювання: ${film.code} · Сеанс: ${film.session.hall}, ${film.session.time} · Рейтинг: ${film.rating}`;
-    dLine3.textContent = `У ролях: ${film.actors.join("; ")}`;
+    fillDetails(film);
     dlg.showModal();
   });
 
   document.getElementById("d-close").addEventListener("click", () => dlg.close());
 
-  applyFilters();
+  init();
 }
 
-// ===== 8. Форма бронювання: власна валідація =====
+// ===== 6. Форма бронювання: власна валідація =====
 const bookingForm = document.getElementById("booking-form");
 
 if (bookingForm !== null) {
@@ -578,8 +557,8 @@ if (bookingForm !== null) {
     receiptEl.hidden = false;
   }
 
-  // Ця перевірка не є захистом: користувач може змінити код або вимкнути
-  // JavaScript у браузері, тому по-справжньому дані перевіряє сервер.
+  // Ця перевірка не є захистом, а лише зручністю: користувач може змінити код
+  // або вимкнути JavaScript у браузері, тому по-справжньому дані перевіряє сервер.
   bookingForm.addEventListener("submit", (event) => {
     event.preventDefault();
     updateCustomRules();
@@ -618,7 +597,7 @@ if (bookingForm !== null) {
   });
 }
 
-// ===== 9. Меню-кнопка =====
+// ===== 7. Меню-кнопка =====
 const burger = document.getElementById("burger");
 const menu = document.getElementById("menu");
 
@@ -644,7 +623,7 @@ if (burger !== null && menu !== null) {
   });
 }
 
-// ===== 10. Тема =====
+// ===== 8. Тема =====
 const themeBtn = document.getElementById("theme");
 
 if (themeBtn !== null) {
@@ -666,6 +645,14 @@ if (themeBtn !== null) {
     themeBtn.textContent = dark ? "☀️ Світла тема" : "🌙 Темна тема";
   };
 
-  applyTheme(isDark());
-  themeBtn.addEventListener("click", () => applyTheme(!isDark()));
+  // Спершу дивимось у сховище: збережений вибір користувача важливіший
+  // за системну схему, яку він міг не обирати свідомо.
+  const savedTheme = localStorage.getItem("theme"); // "dark", "light" або null
+  applyTheme(savedTheme === null ? isDark() : savedTheme === "dark");
+
+  themeBtn.addEventListener("click", () => {
+    const next = !isDark();
+    applyTheme(next);
+    localStorage.setItem("theme", next ? "dark" : "light");
+  });
 }
