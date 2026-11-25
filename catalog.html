@@ -35,7 +35,7 @@
       <ul>
         <li><a href="catalog.html">Усі фільми</a></li>
         <li><a href="catalog.html">Класика кіно</a></li>
-        <li><a href="catalog.html">Прем'єри 2026</a></li>
+        <li><a href="catalog.html">Фантастика</a></li>
         <li><a href="form.html">Бронювання квитка</a></li>
       </ul>
     </nav>
@@ -50,6 +50,8 @@
           <p>Завантажуємо каталог…</p>
         </div>
 
+        <p id="load-error" class="load-error" role="alert" hidden></p>
+
         <div class="controls">
           <div class="controls__field">
             <label for="q">Пошук</label>
@@ -60,14 +62,6 @@
             <label for="filter">Жанр</label>
             <select id="filter">
               <option value="all">усі</option>
-              <option value="драма">Драма</option>
-              <option value="кримінал">Кримінал</option>
-              <option value="фантастика">Фантастика</option>
-              <option value="бойовик">Бойовик</option>
-              <option value="історичний">Історичний</option>
-              <option value="комедія">Комедія</option>
-              <option value="супергероїка">Супергероїка</option>
-              <option value="пригоди">Пригоди</option>
             </select>
           </div>
 
@@ -80,6 +74,20 @@
             <label for="dmax">Тривалість до, хв</label>
             <input type="number" id="dmax" min="0" max="300" step="5" placeholder="300">
           </div>
+
+          <div class="controls__field">
+            <label for="sort">Сортування</label>
+            <select id="sort">
+              <option value="default">як у файлі</option>
+              <option value="year">найновіші першими</option>
+              <option value="rating">за рейтингом</option>
+              <option value="profit">за прибутком</option>
+            </select>
+          </div>
+
+          <label class="controls__check">
+            <input type="checkbox" id="only-saved"> Лише «Дивитися пізніше»
+          </label>
 
           <button type="button" class="btn" id="reset-filters">Скинути</button>
         </div>
@@ -104,18 +112,18 @@
             </thead>
             <tbody>
               <tr>
-                <th scope="row">Втеча з Шоушенка</th>
-                <td>12:00</td>
-                <td>Зал 1</td>
-              </tr>
-              <tr>
-                <th scope="row">Інтерстеллар</th>
+                <th scope="row">Interstellar</th>
                 <td>16:30</td>
                 <td>Зал 2</td>
               </tr>
               <tr>
-                <th scope="row">Одіссея</th>
-                <td>20:00</td>
+                <th scope="row">Dune</th>
+                <td>19:00</td>
+                <td>Зал 1</td>
+              </tr>
+              <tr>
+                <th scope="row">The Dark Knight</th>
+                <td>21:00</td>
                 <td>VIP-зал</td>
               </tr>
             </tbody>
@@ -129,7 +137,7 @@
           <li>Фільми
             <ul>
               <li>Драма</li>
-              <li>Комедія</li>
+              <li>Фантастика</li>
               <li>Трилер
                 <ul>
                   <li>Психологічний трилер</li>
@@ -198,25 +206,25 @@
             </thead>
             <tbody>
               <tr>
-                <th scope="row">Людина-павук: Абсолютно новий день</th>
-                <td>Дестін Деніел Креттон</td>
-                <td>Супергеройський</td>
-                <td>140 хв</td>
-                <td>8.5</td>
+                <th scope="row">Interstellar</th>
+                <td>Christopher Nolan</td>
+                <td>Фантастика</td>
+                <td>169 хв</td>
+                <td>9.3</td>
               </tr>
               <tr>
-                <th scope="row">Одіссея</th>
-                <td>Крістофер Нолан</td>
-                <td>Пригодницький</td>
-                <td>165 хв</td>
-                <td>8.7</td>
+                <th scope="row">Dune</th>
+                <td>Denis Villeneuve</td>
+                <td>Фантастика</td>
+                <td>155 хв</td>
+                <td>8.8</td>
               </tr>
               <tr>
-                <th scope="row">Fall 2: Dead Point</th>
-                <td>Скотт Манн</td>
-                <td>Трилер</td>
-                <td>105 хв</td>
-                <td>7.4</td>
+                <th scope="row">The Dark Knight</th>
+                <td>Christopher Nolan</td>
+                <td>Бойовик</td>
+                <td>152 хв</td>
+                <td>9.9</td>
               </tr>
             </tbody>
           </table>
@@ -239,28 +247,6 @@
         </details>
       </section>
 
-      <section class="demo" id="demo">
-        <h2>Демонстрація роботи</h2>
-
-        <h3>Усього фільмів</h3>
-        <p class="js-out" id="out-count"></p>
-
-        <h3>Нумерований список</h3>
-        <p class="js-out" id="out-numbered"></p>
-
-        <h3>Категорії</h3>
-        <p class="js-out" id="out-categories"></p>
-
-        <h3>Фільтр</h3>
-        <p class="js-out" id="out-filter"></p>
-
-        <h3>Сортування</h3>
-        <p class="js-out" id="out-sorted"></p>
-
-        <h3>Статистика і прибуток</h3>
-        <p class="js-out" id="out-stats"></p>
-      </section>
-
     </main>
 
     <aside class="layout__aside">
@@ -268,7 +254,8 @@
       <ul>
         <li>Бронювання місця діє 15 хвилин після оформлення</li>
         <li>Для дітей до 5 років вхід безкоштовний</li>
-        <li>Клацніть на постер або на «Детальніше», щоб побачити склад і сеанс</li>
+        <li>Натисніть «Детальніше» або на постер, щоб побачити склад, локації й збори</li>
+        <li>Кнопка «Пізніше» зберігає фільм у списку «Дивитися пізніше»</li>
       </ul>
     </aside>
 
@@ -280,9 +267,10 @@
 
   <dialog id="details" aria-labelledby="d-title">
     <h2 id="d-title"></h2>
-    <p id="d-line1"></p>
-    <p id="d-line2"></p>
-    <p id="d-line3"></p>
+    <div id="d-main"></div>
+    <div id="d-object"></div>
+    <div id="d-list"></div>
+    <div id="d-table"></div>
     <button id="d-close" class="btn" type="button">Закрити</button>
   </dialog>
 
