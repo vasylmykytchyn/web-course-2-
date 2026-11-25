@@ -24,7 +24,9 @@ web-course-2/
    У content-box width рахується тільки для вмісту, а відступи й рамка
    додаються зверху, тому дві колонки по 50% з padding разом дають
    більше 100% і не вміщаються в рядок. */
-*, *::before, *::after {
+*,
+*::before,
+*::after {
   box-sizing: border-box;
 }
 
@@ -32,7 +34,9 @@ web-course-2/
    а height: auto зберігає пропорції. Без цього велика картинка тримає
    власну ширину в пікселях, виходить за межі екрана телефона й розтягує
    всю сторінку, через що з'являється горизонтальна прокрутка. */
-img, video, iframe {
+img,
+video,
+iframe {
   max-width: 100%;
   height: auto;
 }
@@ -45,15 +49,23 @@ html {
 
 /* ===== Палітра: темна (за замовчуванням) ===== */
 :root {
-  --color-brand: hsl(350 55% 22%);     /* бордовий — оксамитові крісла */
-  --color-accent: hsl(38 85% 55%);     /* тепле золото — кнопки, акценти */
-  --color-bg: hsl(240 10% 9%);         /* майже чорний фон залу */
-  --color-surface: hsl(240 8% 15%);    /* фон карток і таблиці */
-  --color-text: hsl(0 0% 92%);         /* світлий текст на темному фоні */
-  --color-muted: hsl(0 0% 62%);        /* другорядний текст */
-  --color-error: hsl(0 70% 55%);       /* помилка валідації */
+  --color-brand: hsl(350 55% 22%);
+  /* бордовий — оксамитові крісла */
+  --color-accent: hsl(38 85% 55%);
+  /* тепле золото — кнопки, акценти */
+  --color-bg: hsl(240 10% 9%);
+  /* майже чорний фон залу */
+  --color-surface: hsl(240 8% 15%);
+  /* фон карток і таблиці */
+  --color-text: hsl(0 0% 92%);
+  /* світлий текст на темному фоні */
+  --color-muted: hsl(0 0% 62%);
+  /* другорядний текст */
+  --color-error: hsl(0 70% 55%);
+  /* помилка валідації */
   --color-error-bg: hsl(0 50% 20%);
-  --color-ok: hsl(140 50% 45%);        /* поле заповнено правильно */
+  --color-ok: hsl(140 50% 45%);
+  /* поле заповнено правильно */
   --color-ok-bg: hsl(140 30% 18%);
   --shadow: 0 4px 14px rgb(0 0 0 / 60%);
 
@@ -72,12 +84,16 @@ html {
   --space-sm: 0.5rem;
   --space-md: 1rem;
   --space-lg: 2rem;
-  --tap: 44px;          /* мінімальна зона натискання для пальця */
+  --tap: 44px;
+  /* мінімальна зона натискання для пальця */
 
   /* Макет */
-  --gap: 1.25rem;       /* єдиний проміжок усіх сіток проєкту */
-  --sidebar: 220px;     /* ширина бічної колонки на десктопі */
-  --min-col: 45%;       /* база (телефон): 2 постери в ряд; далі перевизначається у медіазапитах */
+  --gap: 1.25rem;
+  /* єдиний проміжок усіх сіток проєкту */
+  --sidebar: 220px;
+  /* ширина бічної колонки на десктопі */
+  --min-col: 45%;
+  /* база (телефон): 2 постери в ряд; далі перевизначається у медіазапитах */
 }
 
 /* ===== Палітра: світла =====
@@ -150,21 +166,32 @@ body {
   line-height: 1.6;
 }
 
-h1, h2, h3 {
+h1,
+h2,
+h3 {
   font-family: var(--font-heading);
   line-height: 1.2;
 }
 
-h1 { font-size: clamp(1.6rem, 5vw, 2.2rem); }
-h2 { font-size: clamp(1.3rem, 4vw, 1.6rem); }
-h3 { font-size: 1.2rem; }
+h1 {
+  font-size: clamp(1.6rem, 5vw, 2.2rem);
+}
+
+h2 {
+  font-size: clamp(1.3rem, 4vw, 1.6rem);
+}
+
+h3 {
+  font-size: 1.2rem;
+}
 
 p {
   max-width: 65ch;
 }
 
 main {
-  flex: 1; /* на form.html main росте й притискає футер до низу */
+  flex: 1;
+  /* на form.html main росте й притискає футер до низу */
   padding: var(--space-md);
 }
 
@@ -172,11 +199,25 @@ main {
    Порядок критичний: кожен наступний стан має "переважати"
    попередній у каскаді, інакше, наприклад, hover ніколи
    не спрацює на вже відвіданому посиланні */
-a:link    { color: var(--color-accent); }
-a:visited { color: var(--color-muted); }
-a:hover   { text-decoration: underline; }
-a:focus-visible { outline: 2px solid var(--color-accent); }
-a:active  { color: var(--color-text); }
+a:link {
+  color: var(--color-accent);
+}
+
+a:visited {
+  color: var(--color-muted);
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+a:focus-visible {
+  outline: 2px solid var(--color-accent);
+}
+
+a:active {
+  color: var(--color-text);
+}
 
 /* === Кнопки === */
 .btn {
@@ -214,7 +255,7 @@ a:active  { color: var(--color-text); }
    Шапка лишається за межами .layout: липкий елемент рухається лише
    в межах свого контейнера.
    Селектор body > header не чіпляє <header> усередині <article>. */
-body > header {
+body>header {
   z-index: 10;
   display: flex;
   flex-wrap: wrap;
@@ -225,7 +266,7 @@ body > header {
   padding: var(--space-sm) var(--space-md);
 }
 
-body > header h1 {
+body>header h1 {
   order: 1;
   margin: 0;
   color: var(--color-accent);
@@ -287,7 +328,7 @@ body > header h1 {
 }
 
 @media (min-width: 768px) {
-  body > header {
+  body>header {
     position: sticky;
     top: 0;
   }
@@ -314,6 +355,7 @@ body > header h1 {
 }
 
 @media (min-width: 1024px) {
+
   /* На десктопі: [назва] [меню] [тема] в один рядок */
   .menu {
     order: 2;
@@ -327,7 +369,7 @@ body > header h1 {
 
 /* Футер: на form.html він прямий нащадок body,
    на index.html і catalog.html — остання зона макета */
-body > footer,
+body>footer,
 .layout__footer {
   background: var(--color-brand);
   color: var(--color-muted);
@@ -359,10 +401,24 @@ body > footer,
   grid-template-rows: auto 1fr auto auto;
 }
 
-.layout__nav    { grid-area: nav; }
-.layout__main   { grid-area: main; min-width: 0; padding: 0; }
-.layout__aside  { grid-area: side; }
-.layout__footer { grid-area: foot; border-radius: var(--radius); }
+.layout__nav {
+  grid-area: nav;
+}
+
+.layout__main {
+  grid-area: main;
+  min-width: 0;
+  padding: 0;
+}
+
+.layout__aside {
+  grid-area: side;
+}
+
+.layout__footer {
+  grid-area: foot;
+  border-radius: var(--radius);
+}
 
 /* Планшет: дві колонки — main і side; навігація зверху на всю ширину */
 @media (min-width: 768px) {
@@ -466,7 +522,8 @@ caption {
   color: var(--color-accent);
 }
 
-th, td {
+th,
+td {
   border: 1px solid var(--color-muted);
   padding: 0.6em 1em;
 }
@@ -604,15 +661,26 @@ label.required::after {
 }
 
 /* === Додаткові псевдокласи === */
-input:disabled { opacity: 0.5; }
+input:disabled {
+  opacity: 0.5;
+}
 
 /* === Псевдоелементи === */
-blockquote::before { content: "«"; color: var(--color-accent); }
-blockquote::after { content: "»"; color: var(--color-accent); }
+blockquote::before {
+  content: "«";
+  color: var(--color-accent);
+}
+
+blockquote::after {
+  content: "»";
+  color: var(--color-accent);
+}
 
 /* === Комбінатори ===
    Пробіл (нащадок): діє на будь-який p всередині article, на будь-якій глибині */
-article p { color: var(--color-text); }
+article p {
+  color: var(--color-text);
+}
 
 /* === Атрибутний селектор ===
    Позначаємо зовнішні посилання значком */
@@ -676,11 +744,18 @@ a[href^="http"]::after {
   gap: var(--space-xs);
 }
 
-.controls input,
+.controls input:not([type="checkbox"]),
 .controls select {
   max-width: none;
   min-height: var(--tap);
   margin-top: 0;
+}
+
+.controls__check {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  min-height: var(--tap);
 }
 
 .controls__count {
@@ -710,11 +785,15 @@ a[href^="http"]::after {
 }
 
 @media (min-width: 768px) {
-  .cards { --min-col: 30%; }
+  .cards {
+    --min-col: 30%;
+  }
 }
 
 @media (min-width: 1024px) {
-  .cards { --min-col: 150px; }
+  .cards {
+    --min-col: 150px;
+  }
 }
 
 /* ===== Картка: Flexbox-колонка + плавні переходи ===== */
@@ -743,7 +822,9 @@ a[href^="http"]::after {
 }
 
 @media (min-width: 768px) {
-  .card { --pad: var(--space-md); }
+  .card {
+    --pad: var(--space-md);
+  }
 }
 
 /* Постер: обгортка з пропорцією 2:3 і відсіканням масштабованого зображення */
@@ -900,14 +981,16 @@ a[href^="http"]::after {
 }
 
 @keyframes spin {
-  to { transform: rotate(360deg); }
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 /* ===== Модальне вікно <dialog> ===== */
 /* z-index не потрібен: showModal() кладе вікно у верхній шар
    (top layer) браузера, і воно лежить над усім незалежно від z-index. */
 dialog {
-  width: min(90%, 420px);
+  width: min(92%, 520px);
   max-height: 85vh;
   overflow-y: auto;
   padding: var(--space-lg);
@@ -920,6 +1003,32 @@ dialog {
 
 dialog h2 {
   margin-top: 0;
+}
+
+/* Вміст модалки: пари «підпис — значення», секції, списки */
+dialog dl {
+  display: grid;
+  grid-template-columns: max-content 1fr;
+  gap: var(--space-xs) var(--space-md);
+  margin: 0 0 var(--space-md);
+}
+
+dialog dt {
+  color: var(--color-muted);
+}
+
+dialog dd {
+  margin: 0;
+  overflow-wrap: anywhere;
+}
+
+dialog h3 {
+  margin: var(--space-md) 0 var(--space-sm);
+}
+
+dialog ul {
+  margin: 0 0 var(--space-md);
+  padding-left: 1.2rem;
 }
 
 dialog::backdrop {
@@ -937,13 +1046,25 @@ body:has(dialog[open]) {
    кадр from, а після завершення лишається в кадрі to. Без both під час
    затримки блок був би видимий у кінцевому вигляді й різко стрибнув би на from. */
 @keyframes fade {
-  from { opacity: 0; }
-  to   { opacity: 1; }
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
 }
 
 @keyframes pop {
-  from { opacity: 0; transform: translateY(24px) scale(0.96); }
-  to   { opacity: 1; transform: translateY(0) scale(1); }
+  from {
+    opacity: 0;
+    transform: translateY(24px) scale(0.96);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
 }
 
 dialog[open] {
@@ -989,6 +1110,27 @@ dialog[open]::backdrop {
   margin: 0 0 var(--space-md);
 }
 
+/* ===== Кнопка «Дивитися пізніше» ===== */
+.card__actions .fav {
+  background: transparent;
+  border: 1px solid var(--color-accent);
+  color: var(--color-text);
+}
+
+.card__actions .fav[aria-pressed="true"] {
+  background: var(--color-accent);
+  color: var(--color-bg);
+}
+
+/* ===== Повідомлення про помилку завантаження ===== */
+.load-error {
+  padding: var(--space-md);
+  background: var(--color-error-bg);
+  color: var(--color-error);
+  border: 1px solid var(--color-error);
+  border-radius: var(--radius);
+}
+
 /* ===== Повага до prefers-reduced-motion =====
    Рух на екрані може викликати запаморочення й нудоту, тому за запитом
    системи робимо анімації й переходи майже миттєвими. 0.01ms, а не 0,
@@ -996,7 +1138,10 @@ dialog[open]::backdrop {
    це налаштування користувача, воно має перебивати будь-які правила
    автора незалежно від специфічності. */
 @media (prefers-reduced-motion: reduce) {
-  *, *::before, *::after {
+
+  *,
+  *::before,
+  *::after {
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
