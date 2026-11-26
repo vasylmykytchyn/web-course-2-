@@ -13,7 +13,7 @@ const POSTERS = {
   "Avatar": "images/avatar.jpg",
   "Inception": "images/inception.jpg",
   "The Lord of the Rings: The Fellowship of the Ring": "images/fellowship.jpg",
-  "The Matrix": "images/matrix.jpg",
+  "The Matrix": "images/matrix.webp",
   "Dune": "images/dune.jpg",
   "Blade Runner 2049": "images/blade-runner-2049.jpg",
   "The Dark Knight": "images/dark-knight.jpg",

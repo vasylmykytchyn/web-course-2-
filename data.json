@@ -1,0 +1,181 @@
+[
+    {
+      "title": "Interstellar",
+      "year": 2014,
+      "duration_min": 169,
+      "director": "Christopher Nolan",
+      "genres": ["sci-fi", "drama", "adventure"],
+      "cast": [
+        { "name": "Matthew McConaughey", "role": "Cooper" },
+        { "name": "Anne Hathaway", "role": "Amelia Brand" },
+        { "name": "Jessica Chastain", "role": "Murph" }
+      ],
+      "boxOffice": {
+        "budget_million": 165,
+        "gross_worldwide_million": 681
+      },
+      "locations": ["Iceland", "USA", "Canada"],
+      "ratings": [9.0, 10.0, 9.5, 8.7]
+    },
+    {
+      "title": "Avatar",
+      "year": 2009,
+      "duration_min": 162,
+      "director": "James Cameron",
+      "genres": ["sci-fi", "fantasy", "adventure"],
+      "cast": [
+        { "name": "Sam Worthington", "role": "Jake Sully" },
+        { "name": "Zoe Saldana", "role": "Neytiri" },
+        { "name": "Sigourney Weaver", "role": "Grace" }
+      ],
+      "boxOffice": {
+        "budget_million": 237,
+        "gross_worldwide_million": 2923
+      },
+      "locations": ["New Zealand", "USA"],
+      "ratings": [8.4, 9.0, 8.8, 7.9]
+    },
+    {
+      "title": "Inception",
+      "year": 2010,
+      "duration_min": 148,
+      "director": "Christopher Nolan",
+      "genres": ["sci-fi", "thriller", "action"],
+      "cast": [
+        { "name": "Leonardo DiCaprio", "role": "Cobb" },
+        { "name": "Joseph Gordon-Levitt", "role": "Arthur" },
+        { "name": "Tom Hardy", "role": "Eames" }
+      ],
+      "boxOffice": {
+        "budget_million": 160,
+        "gross_worldwide_million": 836
+      },
+      "locations": ["Japan", "USA", "France", "UK", "Canada"],
+      "ratings": [9.5, 9.0, 8.8, 9.7]
+    },
+    {
+      "title": "The Lord of the Rings: The Fellowship of the Ring",
+      "year": 2001,
+      "duration_min": 178,
+      "director": "Peter Jackson",
+      "genres": ["fantasy", "adventure"],
+      "cast": [
+        { "name": "Elijah Wood", "role": "Frodo" },
+        { "name": "Ian McKellen", "role": "Gandalf" },
+        { "name": "Orlando Bloom", "role": "Legolas" }
+      ],
+      "boxOffice": {
+        "budget_million": 93,
+        "gross_worldwide_million": 898
+      },
+      "locations": ["New Zealand"],
+      "ratings": [9.0, 9.5, 9.2]
+    },
+    {
+      "title": "The Matrix",
+      "year": 1999,
+      "duration_min": 136,
+      "director": "Lana & Lilly Wachowski",
+      "genres": ["sci-fi", "action"],
+      "cast": [
+        { "name": "Keanu Reeves", "role": "Neo" },
+        { "name": "Carrie-Anne Moss", "role": "Trinity" },
+        { "name": "Laurence Fishburne", "role": "Morpheus" }
+      ],
+      "boxOffice": {
+        "budget_million": 63,
+        "gross_worldwide_million": 467
+      },
+      "locations": ["Australia", "USA"],
+      "ratings": [9.5, 9.0, 8.9, 9.3]
+    },
+    {
+      "title": "Dune",
+      "year": 2021,
+      "duration_min": 155,
+      "director": "Denis Villeneuve",
+      "genres": ["sci-fi", "epic"],
+      "cast": [
+        { "name": "Timothée Chalamet", "role": "Paul Atreides" },
+        { "name": "Zendaya", "role": "Chani" },
+        { "name": "Oscar Isaac", "role": "Duke Leto" }
+      ],
+      "boxOffice": {
+        "budget_million": 165,
+        "gross_worldwide_million": 406
+      },
+      "locations": ["Jordan", "Hungary", "UAE"],
+      "ratings": [8.5, 9.0, 8.8]
+    },
+    {
+      "title": "Blade Runner 2049",
+      "year": 2017,
+      "duration_min": 164,
+      "director": "Denis Villeneuve",
+      "genres": ["sci-fi", "neo-noir"],
+      "cast": [
+        { "name": "Ryan Gosling", "role": "K" },
+        { "name": "Harrison Ford", "role": "Deckard" },
+        { "name": "Ana de Armas", "role": "Joi" }
+      ],
+      "boxOffice": {
+        "budget_million": 150,
+        "gross_worldwide_million": 267
+      },
+      "locations": ["Hungary", "Spain"],
+      "ratings": [8.7, 8.9, 9.2]
+    },
+    {
+      "title": "The Dark Knight",
+      "year": 2008,
+      "duration_min": 152,
+      "director": "Christopher Nolan",
+      "genres": ["action", "crime", "drama"],
+      "cast": [
+        { "name": "Christian Bale", "role": "Batman" },
+        { "name": "Heath Ledger", "role": "Joker" },
+        { "name": "Aaron Eckhart", "role": "Harvey Dent" }
+      ],
+      "boxOffice": {
+        "budget_million": 185,
+        "gross_worldwide_million": 1006
+      },
+      "locations": ["USA", "UK"],
+      "ratings": [10, 9.8, 9.7, 10]
+    },
+    {
+      "title": "The Shawshank Redemption",
+      "year": 1994,
+      "duration_min": 142,
+      "director": "Frank Darabont",
+      "genres": ["drama"],
+      "cast": [
+        { "name": "Tim Robbins", "role": "Andy Dufresne" },
+        { "name": "Morgan Freeman", "role": "Red" }
+      ],
+      "boxOffice": {
+        "budget_million": 25,
+        "gross_worldwide_million": 73
+      },
+      "locations": ["USA"],
+      "ratings": [10, 9.9, 9.8]
+    },
+    {
+      "title": "Gladiator",
+      "year": 2000,
+      "duration_min": 155,
+      "director": "Ridley Scott",
+      "genres": ["historical", "drama", "action"],
+      "cast": [
+        { "name": "Russell Crowe", "role": "Maximus" },
+        { "name": "Joaquin Phoenix", "role": "Commodus" }
+      ],
+      "boxOffice": {
+        "budget_million": 103,
+        "gross_worldwide_million": 503
+      },
+      "locations": ["Malta", "Morocco", "UK"],
+      "ratings": [9.3, 9.1, 9.0, 9.4]
+    }
+  ]
+  
